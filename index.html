@@ -11,80 +11,105 @@
       font-family: Arial, sans-serif;
       background:#0f172a;
       color:#fff;
-      padding:40px 18px;
+      padding:34px 16px;
     }
     .wrap{max-width:1100px;margin:0 auto;}
-    h1{
-      text-align:center;
-      margin:0 0 18px 0;
-      font-size:34px;
-    }
-    .sub{
-      text-align:center;
-      color:#94a3b8;
-      font-size:13px;
-      margin-bottom:22px;
-    }
-    .track{
-      position:relative;
-      width:100%;
-      height:140px;
-      background:#1e293b;
-      border-radius:80px;
+    h1{margin:0 0 8px 0;text-align:center;font-size:34px;}
+    .sub{margin:0 0 18px 0;text-align:center;color:#94a3b8;font-size:13px;}
+
+    .board{
+      background:#111c33;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:22px;
       overflow:hidden;
-      padding:22px 0;
       box-shadow: 0 18px 55px rgba(0,0,0,.35);
     }
-    .finish{
-      position:absolute;
-      right:18px;
-      top:50%;
-      transform:translateY(-50%);
-      font-size:24px;
-      opacity:.9;
-    }
-    .runner{
-      position:absolute;
-      top:26px;
+
+    .headerRow{
       display:flex;
-      flex-direction:column;
+      justify-content:space-between;
       align-items:center;
-      transition:left .8s cubic-bezier(.2,.9,.2,1);
-      width:130px;
-      margin-left:-65px;
+      padding:14px 16px;
+      background:rgba(255,255,255,.04);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      color:#cbd5e1;
+      font-size:12px;
+    }
+
+    .lane{
+      display:grid;
+      grid-template-columns: 260px 1fr 90px;
+      gap:14px;
+      align-items:center;
+      padding:12px 16px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .lane:last-child{border-bottom:none;}
+
+    .who{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
     }
     .avatar{
-      width:66px;height:66px;
+      width:46px;height:46px;
       border-radius:50%;
-      border:3px solid #fff;
+      border:2px solid #fff;
       background:#334155;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:34px;
+      font-size:24px;
+      flex:0 0 auto;
     }
     .name{
-      margin-top:8px;
-      font-size:12px;
-      text-align:center;
-      width:130px;
+      font-weight:800;
+      font-size:14px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
-    .score{
-      margin-top:4px;
-      font-size:12px;
-      color:#cbd5e1;
-      font-weight:800;
+
+    .rail{
+      position:relative;
+      height:22px;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
     }
-    .legend{
+    .finish{
+      position:absolute;
+      right:8px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:12px;
+      opacity:.9;
+    }
+    .dot{
+      position:absolute;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:34px;height:34px;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,.95);
+      background:#0b1220;
       display:flex;
-      justify-content:space-between;
-      color:#94a3b8;
-      font-size:12px;
-      margin-top:10px;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      transition:left .8s cubic-bezier(.2,.9,.2,1);
+      box-shadow: 0 10px 18px rgba(0,0,0,.25);
     }
+
+    .score{
+      text-align:right;
+      font-weight:900;
+      color:#e2e8f0;
+      font-size:14px;
+    }
+
     .error{
       margin-top:14px;
       color:#fca5a5;
@@ -94,18 +119,19 @@
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <h1>🏆 YAG Acquisitie Leaderboard</h1>
-    <div class="sub" id="subtitle">Automatisch op score gesorteerd</div>
+    <div class="sub" id="subtitle">Automatisch gesorteerd op score</div>
 
-    <div class="track" id="track">
-      <div class="finish">🏁</div>
-    </div>
-
-    <div class="legend">
-      <span>Start</span>
-      <span>Finish</span>
+    <div class="board" id="board">
+      <div class="headerRow">
+        <span>Naam</span>
+        <span>Progress</span>
+        <span>Score</span>
+      </div>
+      <div id="lanes"></div>
     </div>
 
     <div class="error" id="err"></div>
@@ -122,30 +148,37 @@
       const data = await res.json();
       data.forEach(p => p.score = Number(p.score || 0));
 
-      // Sorteer hoog naar laag
+      // sorteer hoog naar laag
       data.sort((a,b) => (b.score - a.score) || String(a.name).localeCompare(String(b.name)));
 
       const maxScore = Math.max(1, ...data.map(p => p.score));
-      const track = document.getElementById('track');
-      track.querySelectorAll('.runner').forEach(x => x.remove());
 
       const now = new Date();
       document.getElementById('subtitle').textContent =
         `Update: ${now.toLocaleString('nl-NL')} · Max score: ${maxScore}`;
 
-      data.forEach((p, i) => {
-        const leftPct = clamp((p.score / maxScore) * 90 + 3, 3, 93);
+      const lanes = document.getElementById('lanes');
+      lanes.innerHTML = "";
 
-        const el = document.createElement('div');
-        el.className = 'runner';
-        el.style.left = leftPct + '%';
+      data.forEach((p) => {
+        const leftPct = clamp((p.score / maxScore) * 94 + 2, 2, 96);
 
-        el.innerHTML = `
-          <div class="avatar">${p.icon || "⭐"}</div>
-          <div class="name">${i+1}. ${p.name || ""}</div>
+        const lane = document.createElement('div');
+        lane.className = 'lane';
+        lane.innerHTML = `
+          <div class="who">
+            <div class="avatar">${p.icon || "⭐"}</div>
+            <div class="name">${p.name || ""}</div>
+          </div>
+
+          <div class="rail">
+            <div class="finish">🏁</div>
+            <div class="dot" style="left:${leftPct}%;">${p.icon || "⭐"}</div>
+          </div>
+
           <div class="score">${p.score}</div>
         `;
-        track.appendChild(el);
+        lanes.appendChild(lane);
       });
 
     } catch(e){
