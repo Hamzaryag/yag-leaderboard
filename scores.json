@@ -1,14 +1,14 @@
 [
-  {"name":"Floor Staal","role":"YAGA D&O","score":3,"icon":"🦊"},
-  {"name":"Daan Hogervorst","role":"Amsterdam - TC","score":1,"icon":"🦅"},
-  {"name":"Lucas van Hengel","role":"YAGNL - Amsterdam","score":0,"icon":"🐺"},
-  {"name":"Hamza Rida","role":"Acquisitie","score":0,"icon":"🦁"},
-  {"name":"Philippe Smit","role":"HRI YAGA","score":0,"icon":"🐼"},
-  {"name":"Thijs Thierry","role":"Amsterdam - Finance","score":0,"icon":"🐯"},
-  {"name":"Minke Groenendijk","role":"YAGA Marketing","score":0,"icon":"🐨"},
-  {"name":"Puck Goossens","role":"","score":0,"icon":"🐧"},
-  {"name":"Eva van Ieperen","role":"Amsterdam - HRE","score":0,"icon":"🐬"},
-  {"name":"Joost Tieleman","role":"YAGA - HRE","score":6,"icon":"🦏"},
-  {"name":"Kaat Wientjen","role":"Academy","score":0,"icon":"🦋"},
-  {"name":"Olivier Newton","role":"","score":0,"icon":"🐙"}
+  {"name":"Floor Staal","score":0,"icon":"🦊"},
+  {"name":"Daan Hogervorst","score":0,"icon":"🦅"},
+  {"name":"Lucas van Hengel","score":0,"icon":"🐺"},
+  {"name":"Hamza Rida","score":0,"icon":"🦁"},
+  {"name":"Philippe Smit","score":0,"icon":"🐼"},
+  {"name":"Thijs Thierry","score":0,"icon":"🐯"},
+  {"name":"Minke Groenendijk","score":0,"icon":"🐨"},
+  {"name":"Puck Goossens","score":0,"icon":"🐧"},
+  {"name":"Eva van Ieperen","score":0,"icon":"🐬"},
+  {"name":"Joost Tieleman","score":0,"icon":"🦏"},
+  {"name":"Kaat Wientjen","score":0,"icon":"🦋"},
+  {"name":"Olivier Newton","score":0,"icon":"🐙"}
 ]
