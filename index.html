@@ -1,123 +1,161 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="nl">
 <head>
-<meta charset="UTF-8">
-<title>YAG Acquisitie Leaderboard</title>
-
-<style>
-
-body{
-font-family: Arial;
-background:#0f172a;
-color:white;
-padding:40px;
-}
-
-h1{
-text-align:center;
-margin-bottom:40px;
-}
-
-.track{
-position:relative;
-width:100%;
-height:90px;
-background:#1e293b;
-margin:20px 0;
-border-radius:50px;
-}
-
-.runner{
-position:absolute;
-top:-10px;
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-.runner img{
-width:60px;
-height:60px;
-border-radius:50%;
-border:3px solid white;
-}
-
-.name{
-font-size:12px;
-margin-top:5px;
-text-align:center;
-}
-
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>YAG Acquisitie Leaderboard</title>
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#0f172a;
+      color:#fff;
+      padding:40px 18px;
+    }
+    .wrap{max-width:1100px;margin:0 auto;}
+    h1{
+      text-align:center;
+      margin:0 0 18px 0;
+      font-size:34px;
+    }
+    .sub{
+      text-align:center;
+      color:#94a3b8;
+      font-size:13px;
+      margin-bottom:22px;
+    }
+    .track{
+      position:relative;
+      width:100%;
+      height:140px;
+      background:#1e293b;
+      border-radius:80px;
+      overflow:hidden;
+      padding:22px 0;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+    .finish{
+      position:absolute;
+      right:18px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:24px;
+      opacity:.9;
+    }
+    .runner{
+      position:absolute;
+      top:26px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      transition:left .8s cubic-bezier(.2,.9,.2,1);
+      width:130px;
+      margin-left:-65px;
+    }
+    .avatar{
+      width:66px;height:66px;
+      border-radius:50%;
+      border:3px solid #fff;
+      background:#334155;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:34px;
+    }
+    .name{
+      margin-top:8px;
+      font-size:12px;
+      text-align:center;
+      width:130px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .score{
+      margin-top:4px;
+      font-size:12px;
+      color:#cbd5e1;
+      font-weight:800;
+    }
+    .legend{
+      display:flex;
+      justify-content:space-between;
+      color:#94a3b8;
+      font-size:12px;
+      margin-top:10px;
+    }
+    .error{
+      margin-top:14px;
+      color:#fca5a5;
+      font-size:12px;
+      text-align:center;
+      display:none;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <h1>🏆 YAG Acquisitie Leaderboard</h1>
+    <div class="sub" id="subtitle">Automatisch op score gesorteerd</div>
 
-<h1>🏆 YAG Acquisitie Leaderboard</h1>
+    <div class="track" id="track">
+      <div class="finish">🏁</div>
+    </div>
 
-<div class="track">
+    <div class="legend">
+      <span>Start</span>
+      <span>Finish</span>
+    </div>
 
-<div class="runner" style="left:85%">
-<img src="hamza.jpg">
-<div class="name">Hamza Rida</div>
-</div>
+    <div class="error" id="err"></div>
+  </div>
 
-<div class="runner" style="left:70%">
-<img src="lucas.jpg">
-<div class="name">Lucas van Hengel</div>
-</div>
+<script>
+  function clamp(n,a,b){ return Math.max(a, Math.min(b,n)); }
 
-<div class="runner" style="left:60%">
-<img src="daan.jpg">
-<div class="name">Daan Hogervorst</div>
-</div>
+  async function load(){
+    try{
+      const res = await fetch('./scores.json', { cache: 'no-store' });
+      if(!res.ok) throw new Error('scores.json niet gevonden. Staat het bestand in je repo en is het gecommit?');
 
-<div class="runner" style="left:55%">
-<img src="thijs.jpg">
-<div class="name">Thijs Thierry</div>
-</div>
+      const data = await res.json();
+      data.forEach(p => p.score = Number(p.score || 0));
 
-<div class="runner" style="left:50%">
-<img src="floor.jpg">
-<div class="name">Floor Staal</div>
-</div>
+      // Sorteer hoog naar laag
+      data.sort((a,b) => (b.score - a.score) || String(a.name).localeCompare(String(b.name)));
 
-<div class="runner" style="left:45%">
-<img src="philippe.jpg">
-<div class="name">Philippe Smit</div>
-</div>
+      const maxScore = Math.max(1, ...data.map(p => p.score));
+      const track = document.getElementById('track');
+      track.querySelectorAll('.runner').forEach(x => x.remove());
 
-<div class="runner" style="left:40%">
-<img src="minke.jpg">
-<div class="name">Minke Groenendijk</div>
-</div>
+      const now = new Date();
+      document.getElementById('subtitle').textContent =
+        `Update: ${now.toLocaleString('nl-NL')} · Max score: ${maxScore}`;
 
-<div class="runner" style="left:35%">
-<img src="eva.jpg">
-<div class="name">Eva van Ieperen</div>
-</div>
+      data.forEach((p, i) => {
+        const leftPct = clamp((p.score / maxScore) * 90 + 3, 3, 93);
 
-<div class="runner" style="left:30%">
-<img src="joost.jpg">
-<div class="name">Joost Tieleman</div>
-</div>
+        const el = document.createElement('div');
+        el.className = 'runner';
+        el.style.left = leftPct + '%';
 
-<div class="runner" style="left:25%">
-<img src="puck.jpg">
-<div class="name">Puck Goossens</div>
-</div>
+        el.innerHTML = `
+          <div class="avatar">${p.icon || "⭐"}</div>
+          <div class="name">${i+1}. ${p.name || ""}</div>
+          <div class="score">${p.score}</div>
+        `;
+        track.appendChild(el);
+      });
 
-<div class="runner" style="left:20%">
-<img src="kaat.jpg">
-<div class="name">Kaat Wientjen</div>
-</div>
+    } catch(e){
+      const err = document.getElementById('err');
+      err.style.display = 'block';
+      err.textContent = 'Fout: ' + e.message;
+    }
+  }
 
-<div class="runner" style="left:15%">
-<img src="olivier.jpg">
-<div class="name">Olivier Newton</div>
-</div>
-
-</div>
-
+  load();
+</script>
 </body>
 </html>
