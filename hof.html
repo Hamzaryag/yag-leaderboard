@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex, nofollow">
+<title>Topper vd maand</title>
+
+<style>
+body{
+margin:0;
+font-family: Arial, sans-serif;
+background:#0f172a;
+color:#fff;
+padding:34px 16px;
+}
+
+.wrap{max-width:900px;margin:0 auto;}
+
+.nav{
+display:flex;
+gap:12px;
+margin-bottom:25px;
+}
+
+.nav a{
+color:white;
+text-decoration:none;
+padding:10px 14px;
+background:#1e293b;
+border-radius:10px;
+font-weight:bold;
+}
+
+.nav a:hover{
+background:#334155;
+}
+
+h1{
+margin:0 0 18px 0;
+text-align:center;
+font-size:34px;
+}
+
+.board{
+background:#111c33;
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+overflow:hidden;
+box-shadow:0 18px 55px rgba(0,0,0,.35);
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 16px;
+border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.row:last-child{
+border-bottom:none;
+}
+
+.month{
+font-weight:700;
+color:#cbd5e1;
+}
+
+.name{
+font-weight:800;
+font-size:15px;
+}
+
+.score{
+font-weight:900;
+}
+
+.current{
+text-align:center;
+margin-bottom:24px;
+padding:18px;
+background:#111c33;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.icon{
+font-size:40px;
+margin-bottom:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="nav">
+<a href="./index.html">Leaderboard</a>
+<a href="./status.html">Status</a>
+<a href="./hof.html">Topper vd maand</a>
+</div>
+
+<h1>🏆 Topper van de maand</h1>
+
+<div class="current" id="currentWinner"></div>
+
+<div class="board" id="history"></div>
+
+</div>
+
+<script>
+
+async function load(){
+
+try{
+
+let res = await fetch("./hof.json",{cache:"no-store"});
+let data = await res.json();
+
+let winners = data.winners || [];
+
+let current = winners[0];
+
+let currentBox = document.getElementById("currentWinner");
+
+if(current){
+
+currentBox.innerHTML = `
+<div class="icon">${current.icon || "⭐"}</div>
+<div class="name">${current.name || "Nog geen winnaar"}</div>
+<div class="score">${current.score || 0} punten</div>
+`;
+
+}else{
+
+currentBox.innerHTML = "Nog geen winnaar";
+
+}
+
+let history = document.getElementById("history");
+
+winners.forEach(w=>{
+
+let row = document.createElement("div");
+row.className="row";
+
+row.innerHTML = `
+<div class="month">${w.month}</div>
+<div class="name">${w.icon || "⭐"} ${w.name || ""}</div>
+<div class="score">${w.score || 0}</div>
+`;
+
+history.appendChild(row);
+
+});
+
+}catch(e){
+
+document.getElementById("currentWinner").innerText="hof.json niet gevonden";
+
+}
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
