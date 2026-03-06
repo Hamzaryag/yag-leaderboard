@@ -194,7 +194,13 @@
       const lanes = document.getElementById('lanes');
       lanes.innerHTML = "";
 
-      data.forEach((p) => {
+      data.forEach((p, i) => {
+
+        let medal = "";
+        if(i === 0) medal = "🥇 ";
+        if(i === 1) medal = "🥈 ";
+        if(i === 2) medal = "🥉 ";
+
         const leftPct = clamp((p.score / maxScore) * 94 + 2, 2, 96);
 
         const lane = document.createElement('div');
@@ -202,7 +208,7 @@
         lane.innerHTML = `
           <div class="who">
             <div class="avatar">${p.icon || "⭐"}</div>
-            <div class="name">${p.name || ""}</div>
+            <div class="name">${medal}${p.name || ""}</div>
           </div>
 
           <div class="rail">
