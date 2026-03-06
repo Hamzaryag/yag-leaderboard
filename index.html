@@ -69,6 +69,11 @@
 
     .lane:last-child{border-bottom:none;}
 
+    .lane.top{
+      background:linear-gradient(90deg, rgba(245, 158, 11, .12), rgba(245, 158, 11, .03));
+      box-shadow: inset 0 0 0 1px rgba(245, 158, 11, .18);
+    }
+
     .who{
       display:flex;
       align-items:center;
@@ -86,6 +91,15 @@
       justify-content:center;
       font-size:24px;
       flex:0 0 auto;
+      transition: all .35s ease;
+    }
+
+    .lane.top .avatar{
+      width:54px;
+      height:54px;
+      font-size:28px;
+      border-color:#fbbf24;
+      box-shadow: 0 0 18px rgba(251, 191, 36, .35);
     }
 
     .name{
@@ -96,6 +110,10 @@
       text-overflow:ellipsis;
     }
 
+    .lane.top .name{
+      font-size:15px;
+    }
+
     .rail{
       position:relative;
       height:22px;
@@ -103,6 +121,11 @@
       background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
       border:1px solid rgba(255,255,255,.10);
       overflow:hidden;
+    }
+
+    .lane.top .rail{
+      border-color: rgba(251, 191, 36, .35);
+      box-shadow: inset 0 0 10px rgba(251, 191, 36, .08);
     }
 
     .finish{
@@ -126,8 +149,16 @@
       align-items:center;
       justify-content:center;
       font-size:18px;
-      transition:left .8s cubic-bezier(.2,.9,.2,1);
+      transition:left 1s cubic-bezier(.2,.9,.2,1);
       box-shadow: 0 10px 18px rgba(0,0,0,.25);
+    }
+
+    .lane.top .dot{
+      width:38px;
+      height:38px;
+      font-size:20px;
+      border-color:#fbbf24;
+      box-shadow: 0 0 16px rgba(251, 191, 36, .28);
     }
 
     .score{
@@ -135,6 +166,11 @@
       font-weight:900;
       color:#e2e8f0;
       font-size:14px;
+    }
+
+    .lane.top .score{
+      color:#fde68a;
+      font-size:15px;
     }
 
     .error{
@@ -194,31 +230,38 @@
       const lanes = document.getElementById('lanes');
       lanes.innerHTML = "";
 
-data.forEach((p, i) => {
+      data.forEach((p, i) => {
 
-  let medal = "";
-  if(i === 0) medal = "🥇";
-  if(i === 1) medal = "🥈";
-  if(i === 2) medal = "🥉";
+        let medal = "";
+        if(i === 0) medal = "🥇";
+        if(i === 1) medal = "🥈";
+        if(i === 2) medal = "🥉";
 
-  const leftPct = clamp((p.score / maxScore) * 94 + 2, 2, 96);
+        const leftPct = clamp((p.score / maxScore) * 94 + 2, 2, 96);
 
-  const lane = document.createElement('div');
-  lane.className = 'lane';
-  lane.innerHTML = `
-    <div class="who">
-      <div class="avatar">${p.icon || "⭐"}</div>
-      <div class="name">${p.name || ""}</div>
-    </div>
+        const lane = document.createElement('div');
+        lane.className = i === 0 ? 'lane top' : 'lane';
+        lane.innerHTML = `
+          <div class="who">
+            <div class="avatar">${p.icon || "⭐"}</div>
+            <div class="name">${p.name || ""}</div>
+          </div>
 
-    <div class="rail">
-      <div class="finish">🏁</div>
-      <div class="dot" style="left:${leftPct}%;">${p.icon || "⭐"}</div>
-    </div>
+          <div class="rail">
+            <div class="finish">🏁</div>
+            <div class="dot" style="left:2%;">${p.icon || "⭐"}</div>
+          </div>
 
-    <div class="score">${medal} ${p.score}</div>
-  `;
+          <div class="score">${medal} ${p.score}</div>
+        `;
         lanes.appendChild(lane);
+
+        const dot = lane.querySelector('.dot');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            dot.style.left = `${leftPct}%`;
+          });
+        });
       });
 
     } catch(e){
