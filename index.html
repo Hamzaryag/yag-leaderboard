@@ -13,7 +13,29 @@
       color:#fff;
       padding:34px 16px;
     }
+
     .wrap{max-width:1100px;margin:0 auto;}
+
+    /* NAVIGATIE */
+    .nav{
+      display:flex;
+      gap:12px;
+      margin-bottom:25px;
+    }
+
+    .nav a{
+      color:white;
+      text-decoration:none;
+      padding:10px 14px;
+      background:#1e293b;
+      border-radius:10px;
+      font-weight:bold;
+    }
+
+    .nav a:hover{
+      background:#334155;
+    }
+
     h1{margin:0 0 8px 0;text-align:center;font-size:34px;}
     .sub{margin:0 0 18px 0;text-align:center;color:#94a3b8;font-size:13px;}
 
@@ -44,6 +66,7 @@
       padding:12px 16px;
       border-bottom:1px solid rgba(255,255,255,.07);
     }
+
     .lane:last-child{border-bottom:none;}
 
     .who{
@@ -52,6 +75,7 @@
       gap:12px;
       min-width:0;
     }
+
     .avatar{
       width:46px;height:46px;
       border-radius:50%;
@@ -63,6 +87,7 @@
       font-size:24px;
       flex:0 0 auto;
     }
+
     .name{
       font-weight:800;
       font-size:14px;
@@ -79,6 +104,7 @@
       border:1px solid rgba(255,255,255,.10);
       overflow:hidden;
     }
+
     .finish{
       position:absolute;
       right:8px;
@@ -87,6 +113,7 @@
       font-size:12px;
       opacity:.9;
     }
+
     .dot{
       position:absolute;
       top:50%;
@@ -156,7 +183,6 @@
       const data = await res.json();
       data.forEach(p => p.score = Number(p.score || 0));
 
-      // sorteer hoog naar laag
       data.sort((a,b) => (b.score - a.score) || String(a.name).localeCompare(String(b.name)));
 
       const maxScore = Math.max(1, ...data.map(p => p.score));
