@@ -11,6 +11,25 @@ color:white;
 padding:40px;
 }
 
+.nav{
+display:flex;
+gap:12px;
+margin-bottom:25px;
+}
+
+.nav a{
+color:white;
+text-decoration:none;
+padding:10px 14px;
+background:#1e293b;
+border-radius:10px;
+font-weight:bold;
+}
+
+.nav a:hover{
+background:#334155;
+}
+
 table{
 width:100%;
 border-collapse:collapse;
@@ -31,6 +50,12 @@ border-bottom:1px solid #334155;
 
 <body>
 
+<div class="nav">
+<a href="./index.html">Leaderboard</a>
+<a href="./status.html">Status</a>
+<a href="./hof.html">Topper vd maand</a>
+</div>
+
 <h1>Acquisitie status</h1>
 
 <table id="table">
@@ -44,7 +69,7 @@ border-bottom:1px solid #334155;
 
 async function load(){
 
-let data = await fetch("weekly.json");
+let data = await fetch("./weekly.json");
 data = await data.json();
 
 let weeks = data.weeks;
