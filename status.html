@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Acquisitie status</title>
+<style>
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+padding:40px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td,th{
+padding:12px;
+border-bottom:1px solid #334155;
+}
+
+.green{color:#22c55e;}
+.yellow{color:#facc15;}
+.orange{color:#fb923c;}
+.red{color:#ef4444;}
+
+</style>
+</head>
+
+<body>
+
+<h1>Acquisitie status</h1>
+
+<table id="table">
+<tr>
+<th>Naam</th>
+<th>Status</th>
+</tr>
+</table>
+
+<script>
+
+async function load(){
+
+let data = await fetch("weekly.json");
+data = await data.json();
+
+let weeks = data.weeks;
+let norm = data.weekNorm;
+
+let lastWeeks = weeks.slice(-3);
+
+let names = Object.keys(lastWeeks[0].scores);
+
+let table = document.getElementById("table");
+
+names.forEach(name=>{
+
+let missed = 0;
+
+lastWeeks.forEach(w=>{
+if(w.scores[name] < norm){
+missed++;
+}else{
+missed = 0;
+}
+});
+
+let status = "Groen";
+let className="green";
+
+if(missed==1){
+status="Waarschuwing";
+className="yellow";
+}
+
+if(missed==2){
+status="Trakteren";
+className="orange";
+}
+
+if(missed>=3){
+status="Staffing onderaan";
+className="red";
+}
+
+table.innerHTML += `
+<tr>
+<td>${name}</td>
+<td class="${className}">${status}</td>
+</tr>
+`
+
+})
+
+}
+
+load()
+
+</script>
+
+</body>
+</html>
