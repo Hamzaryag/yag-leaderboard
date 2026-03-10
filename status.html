@@ -1,130 +1,294 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
-<meta charset="UTF-8">
-<title>Acquisitie status</title>
-<style>
-body{
-font-family:Arial;
-background:#0f172a;
-color:white;
-padding:40px;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Acquisitie status</title>
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#0f172a;
+      color:white;
+      padding:34px 16px;
+    }
 
-.nav{
-display:flex;
-gap:12px;
-margin-bottom:25px;
-}
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+    }
 
-.nav a{
-color:white;
-text-decoration:none;
-padding:10px 14px;
-background:#1e293b;
-border-radius:10px;
-font-weight:bold;
-}
+    .nav{
+      display:flex;
+      gap:12px;
+      margin-bottom:25px;
+      flex-wrap:wrap;
+    }
 
-.nav a:hover{
-background:#334155;
-}
+    .nav a{
+      color:white;
+      text-decoration:none;
+      padding:10px 14px;
+      background:#1e293b;
+      border-radius:10px;
+      font-weight:bold;
+    }
 
-table{
-width:100%;
-border-collapse:collapse;
-}
+    .nav a:hover{
+      background:#334155;
+    }
 
-td,th{
-padding:12px;
-border-bottom:1px solid #334155;
-}
+    h1{
+      margin:0 0 8px 0;
+      text-align:center;
+      font-size:34px;
+    }
 
-.green{color:#22c55e;}
-.yellow{color:#facc15;}
-.orange{color:#fb923c;}
-.red{color:#ef4444;}
+    .sub{
+      margin:0 0 18px 0;
+      text-align:center;
+      color:#94a3b8;
+      font-size:13px;
+    }
 
-</style>
+    .card{
+      background:#111c33;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    th, td{
+      padding:14px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      text-align:left;
+      vertical-align:middle;
+      font-size:14px;
+    }
+
+    th{
+      background:rgba(255,255,255,.04);
+      color:#cbd5e1;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    tr:last-child td{
+      border-bottom:none;
+    }
+
+    .person{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+    }
+
+    .icon{
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      background:#334155;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      flex:0 0 auto;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .green{
+      color:#22c55e;
+      background:rgba(34,197,94,.12);
+    }
+
+    .yellow{
+      color:#facc15;
+      background:rgba(250,204,21,.12);
+    }
+
+    .orange{
+      color:#fb923c;
+      background:rgba(251,146,60,.12);
+    }
+
+    .red{
+      color:#ef4444;
+      background:rgba(239,68,68,.12);
+    }
+
+    .blue{
+      color:#60a5fa;
+      background:rgba(96,165,250,.12);
+    }
+
+    .muted{
+      color:#94a3b8;
+    }
+
+    .center{
+      text-align:center;
+    }
+
+    .error{
+      margin-top:14px;
+      color:#fca5a5;
+      font-size:12px;
+      text-align:center;
+      display:none;
+    }
+
+    @media (max-width: 900px){
+      th:nth-child(4),
+      td:nth-child(4),
+      th:nth-child(7),
+      td:nth-child(7){
+        display:none;
+      }
+    }
+
+    @media (max-width: 700px){
+      th:nth-child(5),
+      td:nth-child(5),
+      th:nth-child(6),
+      td:nth-child(6){
+        display:none;
+      }
+
+      h1{
+        font-size:28px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-<div class="nav">
-<a href="./index.html">Leaderboard</a>
-<a href="./status.html">Status</a>
-<a href="./hof.html">Topper vd maand</a>
-</div>
+    <div class="nav">
+      <a href="./index.html">Leaderboard</a>
+      <a href="./status.html">Status</a>
+      <a href="./hof.html">Topper vd maand</a>
+    </div>
 
-<h1>Acquisitie status</h1>
+    <h1>Acquisitie status</h1>
+    <div class="sub" id="subtitle">Actuele status per persoon</div>
 
-<table id="table">
-<tr>
-<th>Naam</th>
-<th>Status</th>
-</tr>
-</table>
+    <div class="card">
+      <table id="table">
+        <thead>
+          <tr>
+            <th>Naam</th>
+            <th>Status</th>
+            <th>Punten</th>
+            <th>Target</th>
+            <th>Streak</th>
+            <th>Sanctie</th>
+            <th>Freeze</th>
+            <th>Volgend target</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
 
-<script>
+    <div class="error" id="err"></div>
+  </div>
 
-async function load(){
+  <script>
+    function toText(value, fallback = "-") {
+      if (value === null || value === undefined || value === "") return fallback;
+      return value;
+    }
 
-let data = await fetch("./weekly.json");
-data = await data.json();
+    function statusClass(status, freeze) {
+      if (freeze === true) return "blue";
 
-let weeks = data.weeks;
-let norm = data.weekNorm;
+      const s = String(status || "").toLowerCase();
 
-let lastWeeks = weeks.slice(-3);
+      if (s.includes("groen") || s.includes("gehaald")) return "green";
+      if (s.includes("waarschuwing")) return "yellow";
+      if (s.includes("trakteren")) return "orange";
+      if (s.includes("tijdelijk niet op projecten")) return "red";
+      if (s.includes("gesprek met hri")) return "red";
 
-let names = Object.keys(lastWeeks[0].scores);
+      return "blue";
+    }
 
-let table = document.getElementById("table");
+    function yesNo(value) {
+      return value === true ? "Ja" : "Nee";
+    }
 
-names.forEach(name=>{
+    async function load(){
+      try{
+        const res = await fetch("./status.json", { cache: "no-store" });
+        if(!res.ok){
+          throw new Error("status.json niet gevonden. Controleer of het bestand in de repo staat en is gecommit.");
+        }
 
-let missed = 0;
+        const data = await res.json();
+        const tbody = document.getElementById("tbody");
+        tbody.innerHTML = "";
 
-lastWeeks.forEach(w=>{
-if(w.scores[name] < norm){
-missed++;
-}else{
-missed = 0;
-}
-});
+        const now = new Date();
+        document.getElementById("subtitle").textContent =
+          `Update: ${now.toLocaleString("nl-NL")} · Bron: status.json`;
 
-let status = "Groen";
-let className="green";
+        data.forEach(p => {
+          const row = document.createElement("tr");
 
-if(missed==1){
-status="Waarschuwing";
-className="yellow";
-}
+          const badgeClass = statusClass(p.status, p.freeze);
+          const statusLabel = p.freeze === true ? "Freeze" : toText(p.status);
+          const sanctionLabel = toText(p.sanction);
+          const points = toText(p.points, "0");
+          const target = p.freeze === true ? "Vrijgesteld" : toText(p.target, "10");
+          const streak = toText(p.streak, "0");
+          const freeze = yesNo(p.freeze);
+          const nextTarget = toText(p.next_target, "10");
 
-if(missed==2){
-status="Trakteren";
-className="orange";
-}
+          row.innerHTML = `
+            <td>
+              <div class="person">
+                <div class="icon">${p.icon || "⭐"}</div>
+                <div>${toText(p.name, "")}</div>
+              </div>
+            </td>
+            <td><span class="badge ${badgeClass}">${statusLabel}</span></td>
+            <td>${points}</td>
+            <td>${target}</td>
+            <td>${streak}</td>
+            <td>${sanctionLabel}</td>
+            <td>${freeze}</td>
+            <td>${nextTarget}</td>
+          `;
 
-if(missed>=3){
-status="Staffing onderaan";
-className="red";
-}
+          tbody.appendChild(row);
+        });
 
-table.innerHTML += `
-<tr>
-<td>${name}</td>
-<td class="${className}">${status}</td>
-</tr>
-`
+      } catch(e){
+        const err = document.getElementById("err");
+        err.style.display = "block";
+        err.textContent = "Fout: " + e.message;
+      }
+    }
 
-})
-
-}
-
-load()
-
-</script>
-
+    load();
+  </script>
 </body>
 </html>
