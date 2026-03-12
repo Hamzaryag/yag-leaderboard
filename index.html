@@ -31,16 +31,6 @@ body::before{
   pointer-events:none;transition:background .25s ease-out;
 }
 
-/* ===== light trail cursor ===== */
-.trail{
-  position:fixed;width:8px;height:8px;
-  border-radius:50%;background:rgba(244,199,108,.5);
-  pointer-events:none;mix-blend-mode:screen;
-  transform:translate(-50%,-50%);
-  transition:opacity .3s;
-  z-index:10000;
-}
-
 /* ===== nav ===== */
 nav{
   display:flex;justify-content:center;gap:2rem;
@@ -58,8 +48,7 @@ nav a.active::after{
 
 /* ===== hero intro ===== */
 header{
-  text-align:center;
-  margin-top:.5rem;
+  text-align:center;margin-top:.5rem;
   animation:rise 1s cubic-bezier(.2,.9,.3,1) forwards;
   opacity:0;transform:translateY(40px);
 }
@@ -89,7 +78,7 @@ h1{font-size:2.5rem;font-weight:800;letter-spacing:.5px;}
   perspective:800px;
 }
 
-/* ===== leaderboard row ===== */
+/* ===== row ===== */
 .row{
   position:relative;background:var(--card);
   border:1px solid var(--border);
@@ -102,36 +91,33 @@ h1{font-size:2.5rem;font-weight:800;letter-spacing:.5px;}
 }
 @keyframes stagger{to{opacity:1;transform:translateY(0) rotateX(0);}}
 .row:hover{
-  transform:translateY(-4px) rotateX(0);transition:transform .3s,box-shadow .3s;
+  transform:translateY(-4px) rotateX(0);
+  transition:transform .3s,box-shadow .3s;
   box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
-/* ===== crown centered on avatar ===== */
-.row.top1::before{
-  content:"👑";
-  position:absolute;top:4px;left:70px;
-  transform:translateX(-50%);
-  font-size:1.8rem;
-  filter:drop-shadow(0 0 6px rgba(244,199,108,.9));
-  animation:crownFloat 3s ease-in-out infinite;
-}
-@keyframes crownFloat{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-6px);}}
-
-/* ===== styles by rank ===== */
-.row.top1{box-shadow:0 0 25px rgba(244,199,108,.4);}
-.row.top2,.row.top3{box-shadow:0 0 15px rgba(56,189,248,.2);}
-
-/* ===== content columns ===== */
+/* ===== content ===== */
 .rank{width:40px;text-align:center;font-weight:800;}
 .name{
   flex:1;display:flex;align-items:center;gap:.6rem;font-weight:600;
 }
+.emoji-wrap{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;
+}
 .emoji{
-  position:relative;font-size:1.8rem;
-  transition:transform .5s cubic-bezier(.2,.9,.2,1);
+  font-size:1.8rem;transition:transform .5s cubic-bezier(.2,.9,.2,1);
 }
 .row:hover .emoji{transform:rotate(6deg) scale(1.1);}
+.crown{
+  position:absolute;
+  top:-1.4rem;right:-1rem;
+  font-size:1.3rem;
+  filter:drop-shadow(0 0 6px rgba(244,199,108,.7));
+  animation:crownFloat 3s ease-in-out infinite;
+}
+@keyframes crownFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
 
+/* bars */
 .bar{
   flex:2;height:10px;background:rgba(255,255,255,.07);
   border-radius:6px;overflow:hidden;
@@ -144,7 +130,7 @@ h1{font-size:2.5rem;font-weight:800;letter-spacing:.5px;}
 }
 @keyframes shimmer{to{background-position:-200% 0;}}
 
-/* bar colors */
+/* kleurgradients */
 .row.top1 .progress{background:linear-gradient(90deg,#facc15,#fde68a,#fbcf04);}
 .progress{background:linear-gradient(90deg,var(--blue),#2563eb);}
 
@@ -153,26 +139,15 @@ h1{font-size:2.5rem;font-weight:800;letter-spacing:.5px;}
   color:var(--gold);font-size:1.1rem;
 }
 
-/* hover tilt physics */
-@media(hover:hover){
-  .row:hover{
-    transform:rotateX(2deg) rotateY(1deg) translateY(-6px);
-  }
-}
-
 /* responsive */
 @media(max-width:600px){
   .row{flex-direction:column;align-items:flex-start;}
   .bar{width:100%;margin:.6rem 0;}
   .score{align-self:flex-end;}
 }
-
-/* confetti canvas hidden behind UI */
-canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;}
 </style>
 </head>
 <body>
-
 <div class="layer gold"></div>
 <div class="layer blue"></div>
 
@@ -183,7 +158,7 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;}
 </nav>
 
 <header>
-  <h1>🏆 Elite Acquisition Leaderboard</h1>
+  <h1>🏆 Elite Acquisitie Leaderboard</h1>
   <div class="metrics">
     <div class="metric">Totaal punten <span id="totPoints">0</span></div>
     <div class="metric">Spelers <span id="players">0</span></div>
@@ -192,51 +167,24 @@ canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;}
 </header>
 
 <div class="board" id="board"></div>
-<canvas class="confetti"></canvas>
-<div class="trail" id="trail"></div>
 
 <script>
-/* light-follow */
+/* ambient glow volgt muis */
 document.addEventListener('mousemove',e=>{
   document.body.style.setProperty('--mx',e.clientX+'px');
   document.body.style.setProperty('--my',e.clientY+'px');
 });
 
-/* light trail */
-const trail=document.getElementById('trail');
-let lastX=0,lastY=0;
+/* parallax move layers */
 document.addEventListener('mousemove',e=>{
-  lastX=e.clientX;lastY=e.clientY;
+  const x=(e.clientX/window.innerWidth-.5)*20;
+  const y=(e.clientY/window.innerHeight-.5)*20;
+  document.querySelectorAll('.layer').forEach(l=>{
+    l.style.transform=`translate(${x}px,${y}px)`;
+  });
 });
-function animateTrail(){
-  trail.style.left=lastX+'px';trail.style.top=lastY+'px';
-  requestAnimationFrame(animateTrail);
-}
-animateTrail();
 
-/* confetti burst for #1 */
-function doConfetti(){
-  const canvas=document.querySelector('canvas.confetti');
-  const ctx=canvas.getContext('2d');
-  canvas.width=innerWidth;canvas.height=innerHeight;
-  const particles=[];
-  for(let i=0;i<80;i++){
-    particles.push({x:canvas.width/2,y:canvas.height/2,
-      c:`hsl(${Math.random()*50+40},90%,60%)`,
-      r:2+Math.random()*3,vx:(Math.random()-0.5)*6,vy:Math.random()*-6});
-  }
-  const tick=()=>{
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
-      p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.r*=0.98;
-    });
-    if(particles.some(p=>p.r>0.5))requestAnimationFrame(tick);
-  }
-  tick();setTimeout(()=>ctx.clearRect(0,0,canvas.width,canvas.height),3000);
-}
-
-/* count-up */
+/* count-up animatie */
 function countUp(el,target,dur=1500){
   let start=0;
   const step=Math.max(1,Math.ceil(target/(dur/20)));
@@ -247,14 +195,29 @@ function countUp(el,target,dur=1500){
   },20);
 }
 
-/* parallax move layers */
-document.addEventListener('mousemove',e=>{
-  const x=(e.clientX/window.innerWidth-.5)*20;
-  const y=(e.clientY/window.innerHeight-.5)*20;
-  document.querySelectorAll('.layer').forEach(l=>{
-    l.style.transform=`translate(${x}px,${y}px)`;
-  });
-});
+/* confetti effect simpel */
+function confettiBurst(){
+  const c=document.createElement('canvas');
+  c.style.position='fixed';c.style.inset=0;c.style.pointerEvents='none';c.style.zIndex=1000;
+  document.body.appendChild(c);
+  const ctx=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+  const parts=[];
+  for(let i=0;i<80;i++){
+    parts.push({x:innerWidth/2,y:innerHeight/2,
+      r:2+Math.random()*3,
+      vx:(Math.random()-0.5)*6,
+      vy:(Math.random()-0.5)*6-2,
+      c:`hsl(${Math.random()*60+40},90%,60%)`});
+  }
+  const draw=()=>{
+    ctx.clearRect(0,0,c.width,c.height);
+    parts.forEach(p=>{
+      ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.05;p.r*=.98;
+    });
+    if(parts.some(p=>p.r>.5))requestAnimationFrame(draw);else document.body.removeChild(c);
+  };draw();
+}
 
 /* load data */
 async function loadData(){
@@ -275,22 +238,25 @@ async function loadData(){
       const row=document.createElement('div');
       row.className='row';
       if(i===0)row.classList.add('top1');
-      if(i===1)row.classList.add('top2');
-      if(i===2)row.classList.add('top3');
       row.style.animationDelay=`${i*0.1}s`;
+
+      const emojiHTML=i===0
+        ? `<div class="emoji-wrap"><span class="emoji">${p.icon||'⭐'}</span><span class="crown">👑</span></div>`
+        : `<span class="emoji">${p.icon||'⭐'}</span>`;
+
       row.innerHTML=`
         <div class="rank">${i+1}</div>
-        <div class="name"><span class="emoji">${p.icon||'⭐'}</span>${p.name}</div>
+        <div class="name">${emojiHTML}${p.name}</div>
         <div class="bar"><div class="progress"></div></div>
         <div class="score" data-score="${p.score}">0</div>`;
       board.appendChild(row);
+
       const prog=row.querySelector('.progress');
       const sc=row.querySelector('.score');
-
       requestAnimationFrame(()=>{
         prog.style.width=(p.score/max*100)+'%';
         countUp(sc,p.score);
-        if(i===0)doConfetti();
+        if(i===0)confettiBurst();
       });
     });
   }catch(e){
