@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Acquisitiestatus | Young Advisory Group</title>
+<title>Status | Young Advisory Group</title>
 <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap)" rel="stylesheet">
 <style>
 :root{
@@ -13,7 +13,7 @@
   --sub:#94a3b8;
   --card:rgba(255,255,255,.05);
   --border:rgba(255,255,255,.08);
-  --radius:14px;
+  --radius:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
@@ -24,87 +24,103 @@ body{
   overflow-x:hidden;
 }
 
-/* Ambient light */
+/* zachtere ambient spot */
 body::after{
   content:"";
   position:fixed;inset:0;
-  background:radial-gradient(600px at var(--mx,50%) var(--my,30%),rgba(244,199,108,.08),transparent 80%);
-  pointer-events:none;transition:background .2s;
+  background:radial-gradient(900px at var(--mx,50%) var(--my,40%),rgba(244,199,108,.02),transparent 90%);
+  pointer-events:none;
+  transition:background .2s ease-out;
 }
 
-/* Nav */
+/* nav */
 nav{
   display:flex;justify-content:center;gap:2rem;
   padding:1.8rem 1rem 1rem;
 }
-nav a{color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .4s;}
-nav a:hover{color:var(--gold);}
-nav a.active{color:var(--gold);}
+nav a{color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .3s;}
+nav a:hover,nav a.active{color:var(--gold);}
 nav a.active::after{
   content:"";position:absolute;bottom:-6px;left:0;right:0;height:2px;
   background:var(--gold);border-radius:2px;box-shadow:0 0 8px var(--gold);
 }
 
-/* Header */
-h1{text-align:center;font-size:2.2rem;font-weight:800;margin-bottom:.3rem;}
-.subtitle{text-align:center;color:var(--sub);margin-bottom:2rem;animation:fadePulse 3s infinite alternate;}
-@keyframes fadePulse{from{opacity:.7;}to{opacity:1;}}
-
-/* Cards / table container */
+/* header */
+h1{text-align:center;font-weight:800;font-size:2.2rem;margin-top:.5rem;}
+.subtitle{text-align:center;color:var(--sub);margin:0 0 2rem 0;}
 .wrapper{
   max-width:1100px;margin:0 auto;padding:0 1rem 4rem;
-  display:flex;flex-direction:column;gap:1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.5rem;
 }
 
-/* Table styling desktop */
-table{width:100%;border-collapse:collapse;}
-th,td{padding:14px 12px;text-align:left;font-size:14px;border-bottom:1px solid var(--border);}
-th{color:var(--sub);text-transform:uppercase;font-size:12px;letter-spacing:.05em;}
-tr{background:var(--card);backdrop-filter:blur(8px);opacity:0;transform:translateY(20px);
-    animation:fadeUp .8s cubic-bezier(.2,.9,.2,1) forwards;}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+/* card */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  backdrop-filter:blur(10px);
+  padding:1.2rem 1.5rem;
+  display:flex;flex-direction:column;gap:.6rem;
+  transform:translateY(20px);
+  opacity:0;
+  animation:fadeUp .8s cubic-bezier(.2,.9,.2,1) forwards;
+  box-shadow:0 8px 25px rgba(0,0,0,.35);
+  transition:transform .3s, box-shadow .3s;
+}
+@keyframes fadeUp{to{transform:translateY(0);opacity:1;}}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 45px rgba(244,199,108,.15);
+}
 
-/* Badges */
+/* header-naam */
+.header{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;
+}
+.person{display:flex;align-items:center;gap:.7rem;}
+.icon{
+  width:44px;height:44px;border-radius:50%;
+  background:#334155;display:flex;align-items:center;justify-content:center;
+  font-size:22px;position:relative;
+  transition:transform .5s cubic-bezier(.2,.9,.2,1);
+}
+.icon::after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid rgba(244,199,108,.25);
+}
+.card:hover .icon{transform:rotate(6deg) scale(1.1);}
+.name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* badge */
 .badge{
-  display:inline-block;padding:6px 10px;
-  border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;
-  box-shadow:0 0 10px rgba(0,0,0,.2);
+  display:inline-block;padding:6px 10px;border-radius:999px;
+  font-size:12px;font-weight:700;text-transform:capitalize;
+  box-shadow:0 0 8px rgba(0,0,0,.2);
+  animation:breath 3s ease-in-out infinite;
+}
+@keyframes breath{
+  0%,100%{opacity:.9;}
+  50%{opacity:1;}
 }
 .green{color:#22c55e;background:rgba(34,197,94,.12);}
 .yellow{color:#facc15;background:rgba(250,204,21,.12);}
 .orange{color:#fb923c;background:rgba(251,146,60,.12);}
 .red{color:#ef4444;background:rgba(239,68,68,.12);}
 .blue{color:#3b82f6;background:rgba(59,130,246,.12);}
-.badge.pulse{animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 10px transparent;}50%{box-shadow:0 0 10px currentColor;}}
 
-/* Person cell */
-.person{display:flex;align-items:center;gap:10px;font-weight:700;}
-.icon{
-  width:36px;height:36px;border-radius:50%;
-  background:#334155;display:flex;align-items:center;justify-content:center;
-  font-size:18px;position:relative;overflow:hidden;
-  transition:transform .4s;
-}
-tr:hover .icon{transform:scale(1.15) rotate(6deg);}
+/* metrics binnen card */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.4rem .8rem;font-size:.9rem;}
+.stat-label{color:var(--sub);font-size:.75rem;}
+.num{font-weight:700;color:var(--gold);}
 
-/* Responsive: table->cards */
-@media(max-width:750px){
-  table,thead,tr,th,td{display:block;width:100%;}
-  thead{display:none;}
-  tr{margin-bottom:1rem;border-radius:var(--radius);overflow:hidden;box-shadow:0 0 20px rgba(0,0,0,.3);}
-  td{border:none;padding:10px 14px;}
-  td::before{
-    content:attr(data-label);
-    display:block;font-size:11px;text-transform:uppercase;color:var(--sub);margin-bottom:2px;
-  }
-}
-
-/* Error */
+/* error */
 .err{color:#fca5a5;text-align:center;margin-top:1rem;font-size:.9rem;}
 </style>
 </head>
 <body>
+
 <nav>
   <a href="index.html">Leaderboard</a>
   <a href="status.html" class="active">Status</a>
@@ -112,29 +128,17 @@ tr:hover .icon{transform:scale(1.15) rotate(6deg);}
 </nav>
 
 <h1>📊 Acquisitie Status</h1>
-<p class="subtitle" id="subtitle">Statusoverzicht per persoon</p>
+<p class="subtitle" id="subtitle">Statusoverzicht per persoon</p>
 
-<div class="wrapper">
-  <table id="table">
-    <thead>
-      <tr>
-        <th>Naam</th><th>Status</th><th>Punten</th><th>Target</th>
-        <th>Streak</th><th>Sanctie</th><th>Freeze</th><th>Volgend target</th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
-</div>
-<div id="error" class="err"></div>
+<div class="wrapper" id="cards"></div>
+<p id="error" class="err"></p>
 
 <script>
-// ambient glow
 document.addEventListener('mousemove',e=>{
   document.body.style.setProperty('--mx',e.clientX+'px');
   document.body.style.setProperty('--my',e.clientY+'px');
 });
 
-// badge kleur bepalen
 function statusClass(status,freeze){
   if(freeze) return 'blue';
   const s=String(status||'').toLowerCase();
@@ -145,52 +149,54 @@ function statusClass(status,freeze){
   return 'blue';
 }
 
-// count-up
-function countUp(el,target,dur=1000){
-  let start=0;
-  const step=Math.max(1,Math.ceil(target/(dur/16)));
+function countUp(el,val){
+  const target=Number(val)||0;
+  let n=0;
+  const step=Math.max(1,Math.ceil(target/50));
   const timer=setInterval(()=>{
-    start+=step;
-    if(start>=target){start=target;clearInterval(timer);}
-    el.textContent=start;
-  },16);
+    n+=step;
+    if(n>=target){n=target;clearInterval(timer);}
+    el.textContent=n;
+  },20);
 }
 
 async function load(){
-  const tbody=document.getElementById('tbody');
+  const wrapper=document.getElementById('cards');
   try{
     const res=await fetch('./status.json',{cache:'no-store'});
     const data=await res.json();
-    tbody.innerHTML='';
+    wrapper.innerHTML='';
     const now=new Date();
-    document.getElementById('subtitle').textContent=`Laatst bijgewerkt op ${now.toLocaleString('nl-NL')}`;
+    document.getElementById('subtitle').textContent=`Laatst bijgewerkt: ${now.toLocaleString('nl-NL')}`;
 
     data.forEach((p,i)=>{
-      const tr=document.createElement('tr');
-      tr.style.animationDelay=`${i*0.1}s`;
       const badge=statusClass(p.status,p.freeze);
-      const statusLabel=p.freeze?'Freeze':p.status||'–';
-
-      const cells=[
-        `<td data-label="Naam"><div class="person"><div class="icon">${p.icon||'⭐'}</div>${p.name||''}</div></td>`,
-        `<td data-label="Status"><span class="badge ${badge} pulse">${statusLabel}</span></td>`,
-        `<td data-label="Punten" class="num" data-val="${p.points||0}">0</td>`,
-        `<td data-label="Target" class="num" data-val="${p.target||0}">0</td>`,
-        `<td data-label="Streak" class="num" data-val="${p.streak||0}">0</td>`,
-        `<td data-label="Sanctie">${p.sanction||'–'}</td>`,
-        `<td data-label="Freeze">${p.freeze?'Ja':'Nee'}</td>`,
-        `<td data-label="Volgend target" class="num" data-val="${p.next_target||0}">0</td>`
-      ];
-      tr.innerHTML=cells.join('');
-      tbody.appendChild(tr);
+      const card=document.createElement('div');
+      card.className='card';
+      card.style.animationDelay=`${i*0.1}s`;
+      card.innerHTML=`
+        <div class="header">
+          <div class="person">
+            <div class="icon">${p.icon||'⭐'}</div>
+            <div class="name">${p.name||''}</div>
+          </div>
+          <span class="badge ${badge}">${p.status||'–'}</span>
+        </div>
+        <div class="stats">
+          <div><div class="stat-label">Punten</div><div class="num" data-val="${p.points||0}">0</div></div>
+          <div><div class="stat-label">Target</div><div class="num" data-val="${p.target||0}">0</div></div>
+          <div><div class="stat-label">Streak</div><div class="num" data-val="${p.streak||0}">0</div></div>
+          <div><div class="stat-label">Volgend target</div><div class="num" data-val="${p.next_target||0}">0</div></div>
+        </div>
+        <div class="stat-label" style="margin-top:.6rem;">Sanctie: <span style="color:var(--sub)">${p.sanction||'Geen'}</span></div>
+        <div class="stat-label">Freeze: <span style="color:${p.freeze?'#60a5fa':'#94a3b8'}">${p.freeze?'Ja':'Nee'}</span></div>`;
+      wrapper.appendChild(card);
     });
-
-    // na DOM insert alle count-ups starten
     document.querySelectorAll('.num').forEach(el=>{
-      countUp(el,Number(el.dataset.val));
+      countUp(el,el.dataset.val);
     });
   }catch(e){
-    document.getElementById('error').textContent='Fout: '+e.message;
+    document.getElementById('error').textContent='Fout bij laden: '+e.message;
   }
 }
 load();
