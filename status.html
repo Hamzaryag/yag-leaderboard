@@ -1,252 +1,762 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Status | Young Advisory Group</title>
-<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap)" rel="stylesheet">
-<style>
-:root{
-  --bg:#0e1423;
-  --gold:#f4c76c;
-  --text:#f1f5f9;
-  --sub:#94a3b8;
-  --card:rgba(255,255,255,.05);
-  --border:rgba(255,255,255,.08);
-  --radius:18px;
-  --blue:#60a5fa;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{
-  background:radial-gradient(circle at top left,#111a2e,#060912 120%);
-  color:var(--text);
-  font-family:'Inter',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-body::after{
-  content:"";
-  position:fixed;inset:0;
-  background:radial-gradient(900px at var(--mx,50%) var(--my,40%),rgba(244,199,108,.02),transparent 90%);
-  pointer-events:none;transition:background .2s ease-out;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Status | Young Advisory Group</title>
 
-/* nav */
-nav{
-  display:flex;justify-content:center;gap:2rem;
-  padding:1.8rem 1rem 1rem;
-}
-nav a{color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .3s;}
-nav a:hover,nav a.active{color:var(--gold);}
-nav a.active::after{
-  content:"";position:absolute;bottom:-6px;left:0;right:0;height:2px;
-  background:var(--gold);border-radius:2px;box-shadow:0 0 8px var(--gold);
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* header */
-h1{text-align:center;font-weight:800;font-size:2.3rem;margin-top:.5rem;}
-.subtitle{text-align:center;color:var(--sub);margin:0 0 2rem 0;animation:fadePulse 3s ease-in-out infinite alternate;}
-@keyframes fadePulse{from{opacity:.8;}to{opacity:1;}}
+  <style>
+    :root{
+      --bg:#08111f;
+      --bg-soft:#0c1728;
+      --panel:rgba(255,255,255,.05);
+      --panel-strong:rgba(255,255,255,.07);
+      --border:rgba(255,255,255,.08);
+      --border-strong:rgba(255,255,255,.14);
+      --text:#f8fafc;
+      --muted:#94a3b8;
+      --gold:#f4c76c;
+      --gold-soft:rgba(244,199,108,.18);
+      --blue:#38bdf8;
+      --green:#22c55e;
+      --yellow:#facc15;
+      --orange:#fb923c;
+      --red:#ef4444;
+      --radius:18px;
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --container:1120px;
+    }
 
-/* grid container */
-.wrapper{
-  max-width:1100px;margin:0 auto;padding:0 1rem 4rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:1.5rem;
-}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-/* base card */
-.card{
-  position:relative;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  backdrop-filter:blur(10px);
-  padding:1.4rem 1.6rem;
-  display:flex;flex-direction:column;gap:.9rem;
-  transform:translateY(25px);opacity:0;
-  animation:fadeUp .8s forwards cubic-bezier(.2,.9,.2,1);
-  box-shadow:0 8px 25px rgba(0,0,0,.35);
-  transition:transform .3s,box-shadow .3s;
-}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+    body{
+      font-family:'Inter',sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(244,199,108,.10), transparent 28%),
+        linear-gradient(180deg, #0a1323 0%, #070d18 100%);
+      overflow-x:hidden;
+    }
 
-/* layout in card */
-.header{display:flex;align-items:center;justify-content:space-between;}
-.person{display:flex;align-items:center;gap:1rem;}
-.icon{
-  width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(145deg,#334155,#1e293b);
-  display:flex;align-items:center;justify-content:center;font-size:26px;
-  border:2px solid rgba(244,199,108,.3);
-  overflow:hidden;transition:transform .5s;
-}
-.card:hover .icon{transform:rotate(5deg) scale(1.1);}
-.name{font-weight:700;font-size:1.05rem;}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:radial-gradient(
+        700px at var(--mx,50%) var(--my,20%),
+        rgba(244,199,108,.05),
+        transparent 60%
+      );
+      opacity:.8;
+    }
 
-/* badge */
-.badge{
-  padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;
-  background:rgba(255,255,255,.1);color:var(--text);
-}
-.green{color:#22c55e;background:rgba(34,197,94,.12);}
-.yellow{color:#facc15;background:rgba(250,204,21,.12);}
-.orange{color:#fb923c;background:rgba(251,146,60,.12);}
-.red{color:#ef4444;background:rgba(239,68,68,.12);}
-.blue{color:#38bdf8;background:rgba(56,189,248,.12);}
+    .container{
+      width:min(var(--container), calc(100% - 2rem));
+      margin:0 auto;
+    }
 
-.stats{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:.5rem 1rem;font-size:.9rem;
-}
-.stat-label{color:var(--sub);font-size:.8rem;}
-.num{color:var(--gold);font-weight:700;}
+    .nav-wrap{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(12px);
+      background:rgba(7,13,24,.55);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
 
-/* ======  FREEZE EFFECT WITH SNOW  ====== */
-.card.freeze{
-  background:rgba(173,216,230,.08);
-  border:1px solid rgba(173,216,230,.3);
-  box-shadow:0 10px 40px rgba(59,130,246,.35);
-  overflow:hidden;
-}
-.card.freeze::before{
-  content:"";
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(191,219,254,.15),rgba(59,130,246,.1));
-  backdrop-filter:blur(12px);
-}
-.card.freeze .icon{
-  background:linear-gradient(145deg,#1e3a8a,#2563eb);
-  border-color:#93c5fd;
-  box-shadow:0 0 12px rgba(59,130,246,.5);
-}
-.card.freeze .badge{
-  background:rgba(96,165,250,.25);
-  color:#dbeafe;
-  text-shadow:0 0 8px rgba(191,219,254,.3);
-}
+    nav{
+      width:min(var(--container), calc(100% - 2rem));
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:1rem;
+    }
 
-/* sneeuwvlokjes */
-.card.freeze .snow{
-  position:absolute;top:-10px;
-  width:100%;height:100%;overflow:hidden;
-  pointer-events:none;
-}
-.card.freeze .snow span{
-  position:absolute;display:block;
-  top:-10px;
-  width:8px;height:8px;
-  background:#dbeafe;
-  border-radius:50%;
-  opacity:.8;
-  animation:snowfall linear infinite;
-}
-@keyframes snowfall{
-  0%{transform:translateY(0) translateX(0);opacity:.9;}
-  100%{transform:translateY(120%) translateX(var(--wind));opacity:0;}
-}
-.card.freeze .snow span:nth-child(odd){animation-duration:8s;}
-.card.freeze .snow span:nth-child(even){animation-duration:10s;}
-/* random generator via JS zorgt voor verschillende windsnelheden */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
 
-/* hover shadow gold voor niet freeze */
-.card:hover:not(.freeze){box-shadow:0 15px 40px rgba(244,199,108,.15);}
+    .brand-badge{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, rgba(244,199,108,.22), rgba(244,199,108,.08));
+      border:1px solid rgba(244,199,108,.20);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+    }
 
-/* error */
-.err{color:#fca5a5;text-align:center;margin-top:1rem;font-size:.9rem;}
-</style>
+    .nav-links{
+      display:flex;
+      gap:.5rem;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      font-size:.95rem;
+      padding:.8rem 1rem;
+      border-radius:12px;
+      transition:.25s ease;
+      border:1px solid transparent;
+    }
+
+    .nav-links a:hover{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border-color:rgba(255,255,255,.06);
+    }
+
+    .nav-links a.active{
+      color:#111827;
+      background:linear-gradient(135deg, #f4c76c, #f8dea3);
+      box-shadow:0 10px 24px rgba(244,199,108,.18);
+    }
+
+    .shell{
+      padding:28px 0 48px;
+    }
+
+    .hero{
+      margin-bottom:22px;
+    }
+
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:28px;
+      border:1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03)),
+        rgba(255,255,255,.02);
+      box-shadow:var(--shadow);
+      padding:30px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:12px;
+    }
+
+    h1{
+      font-size:clamp(2rem, 5vw, 3.1rem);
+      line-height:1.04;
+      letter-spacing:-.03em;
+      margin-bottom:10px;
+    }
+
+    .hero-sub{
+      color:var(--muted);
+      max-width:760px;
+      line-height:1.6;
+      font-size:1rem;
+    }
+
+    .hero-meta{
+      margin-top:18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      padding:.8rem 1rem;
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size:.92rem;
+      font-weight:600;
+    }
+
+    .pill strong{
+      color:var(--text);
+      font-weight:700;
+    }
+
+    .stats-overview{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .overview-card{
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:var(--panel);
+      padding:18px;
+    }
+
+    .overview-label{
+      color:var(--muted);
+      font-size:.85rem;
+      font-weight:600;
+      margin-bottom:10px;
+    }
+
+    .overview-value{
+      font-size:1.75rem;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .overview-card.highlight{
+      background:linear-gradient(180deg, rgba(244,199,108,.14), rgba(244,199,108,.05));
+      border-color:rgba(244,199,108,.22);
+    }
+
+    .overview-card.highlight .overview-value{
+      color:var(--gold);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+      gap:16px;
+    }
+
+    .card{
+      position:relative;
+      border-radius:22px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.035));
+      padding:20px;
+      box-shadow:0 10px 25px rgba(0,0,0,.18);
+      transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+      overflow:hidden;
+    }
+
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:var(--border-strong);
+      box-shadow:0 18px 36px rgba(0,0,0,.24);
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.045));
+    }
+
+    .card.freeze{
+      border-color:rgba(96,165,250,.22);
+      background:
+        linear-gradient(180deg, rgba(96,165,250,.12), rgba(255,255,255,.035)),
+        rgba(255,255,255,.03);
+      box-shadow:0 18px 36px rgba(37,99,235,.10), 0 12px 24px rgba(0,0,0,.18);
+    }
+
+    .card.freeze::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(191,219,254,.06), transparent 45%);
+      pointer-events:none;
+    }
+
+    .card-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:1rem;
+      margin-bottom:18px;
+    }
+
+    .person{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+
+    .icon{
+      width:54px;
+      height:54px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      font-size:1.55rem;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.06);
+      flex-shrink:0;
+    }
+
+    .card.freeze .icon{
+      background:rgba(96,165,250,.14);
+      border-color:rgba(147,197,253,.22);
+      box-shadow:0 0 20px rgba(96,165,250,.08);
+    }
+
+    .person-info{
+      min-width:0;
+    }
+
+    .name{
+      font-weight:800;
+      font-size:1rem;
+      line-height:1.2;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .subline{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+
+    .badge{
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:800;
+      white-space:nowrap;
+      border:1px solid transparent;
+    }
+
+    .green{
+      color:#86efac;
+      background:rgba(34,197,94,.12);
+      border-color:rgba(34,197,94,.16);
+    }
+
+    .yellow{
+      color:#fde68a;
+      background:rgba(250,204,21,.12);
+      border-color:rgba(250,204,21,.16);
+    }
+
+    .orange{
+      color:#fdba74;
+      background:rgba(251,146,60,.12);
+      border-color:rgba(251,146,60,.16);
+    }
+
+    .red{
+      color:#fca5a5;
+      background:rgba(239,68,68,.12);
+      border-color:rgba(239,68,68,.16);
+    }
+
+    .blue{
+      color:#bae6fd;
+      background:rgba(56,189,248,.12);
+      border-color:rgba(56,189,248,.16);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .stat{
+      border-radius:16px;
+      padding:14px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.04);
+    }
+
+    .stat-label{
+      color:var(--muted);
+      font-size:.78rem;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+
+    .stat-value{
+      color:var(--text);
+      font-size:1.3rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .stat-value.gold{
+      color:var(--gold);
+    }
+
+    .meta{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      padding-top:2px;
+    }
+
+    .meta-row{
+      display:flex;
+      justify-content:space-between;
+      gap:1rem;
+      font-size:.88rem;
+      color:var(--muted);
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+
+    .meta-row:first-child{
+      border-top:none;
+      padding-top:0;
+    }
+
+    .meta-row strong{
+      color:var(--text);
+      font-weight:700;
+      text-align:right;
+    }
+
+    .freeze-flag{
+      color:#93c5fd;
+    }
+
+    .snow{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+
+    .snow span{
+      position:absolute;
+      top:-10px;
+      display:block;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:rgba(219,234,254,.9);
+      opacity:.75;
+      animation:snowfall linear infinite;
+    }
+
+    @keyframes snowfall{
+      0%{
+        transform:translateY(0) translateX(0);
+        opacity:.85;
+      }
+      100%{
+        transform:translateY(420px) translateX(var(--wind));
+        opacity:0;
+      }
+    }
+
+    .error{
+      margin-top:18px;
+      text-align:center;
+      padding:16px;
+      border-radius:16px;
+      color:#fecaca;
+      border:1px solid rgba(248,113,113,.18);
+      background:rgba(248,113,113,.05);
+    }
+
+    footer{
+      margin-top:26px;
+      color:var(--muted);
+      font-size:.88rem;
+      text-align:center;
+      padding:12px 0 10px;
+    }
+
+    @media (max-width: 900px){
+      .stats-overview{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      nav{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .nav-links{
+        width:100%;
+        justify-content:space-between;
+      }
+
+      .nav-links a{
+        flex:1;
+        text-align:center;
+        padding:.8rem .7rem;
+        font-size:.9rem;
+      }
+
+      .hero-card{
+        padding:22px;
+        border-radius:22px;
+      }
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .card-head{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .name{
+        white-space:normal;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="nav-wrap">
+    <nav>
+      <div class="brand">
+        <div class="brand-badge">📊</div>
+        <div>Young Advisory Group</div>
+      </div>
 
-<nav>
-  <a href="index.html">Leaderboard</a>
-  <a href="status.html" class="active">Status</a>
-  <a href="hof.html">Topper vd maand</a>
-</nav>
+      <div class="nav-links">
+        <a href="index.html">Leaderboard</a>
+        <a href="status.html" class="active">Status</a>
+        <a href="hof.html">Topper van de maand</a>
+      </div>
+    </nav>
+  </div>
 
-<h1>📊 Acquisitie Status</h1>
-<p class="subtitle" id="subtitle">Statusoverzicht per persoon</p>
+  <main class="shell">
+    <div class="container">
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">Team status dashboard</div>
+          <h1>Acquisitie Status</h1>
+          <p class="hero-sub">
+            Actueel overzicht per persoon, inclusief punten, target, streak, status en eventuele freeze.
+          </p>
 
-<div class="wrapper" id="cards"></div>
-<p id="error" class="err"></p>
-
-<script>
-document.addEventListener('mousemove',e=>{
-  document.body.style.setProperty('--mx',e.clientX+'px');
-  document.body.style.setProperty('--my',e.clientY+'px');
-});
-
-function statusClass(status,freeze){
-  if(freeze) return 'blue';
-  const s=String(status||'').toLowerCase();
-  if(s.includes('groen')) return 'green';
-  if(s.includes('waarschuwing')) return 'yellow';
-  if(s.includes('trakteren')) return 'orange';
-  if(s.includes('tijdelijk')||s.includes('gesprek')) return 'red';
-  return 'blue';
-}
-
-function countUp(el,val){
-  const target=Number(val)||0;let n=0;
-  const step=Math.max(1,Math.ceil(target/50));
-  const t=setInterval(()=>{n+=step;if(n>=target){n=target;clearInterval(t);}el.textContent=n;},20);
-}
-
-function createSnow(container){
-  const snow=document.createElement('div');
-  snow.className='snow';
-  for(let i=0;i<25;i++){
-    const flake=document.createElement('span');
-    flake.style.left=Math.random()*100+'%';
-    flake.style.width=2+Math.random()*6+'px';
-    flake.style.height=flake.style.width;
-    flake.style.animationDelay=Math.random()*8+'s';
-    flake.style.setProperty('--wind', (Math.random()*40-20)+'px');
-    snow.appendChild(flake);
-  }
-  container.appendChild(snow);
-}
-
-async function load(){
-  const wrapper=document.getElementById('cards');
-  try{
-    const res=await fetch('./status.json',{cache:'no-store'});
-    const data=await res.json();
-    wrapper.innerHTML='';
-    const now=new Date();
-    document.getElementById('subtitle').textContent=`Laatst bijgewerkt: ${now.toLocaleString('nl-NL')}`;
-
-    data.forEach((p,i)=>{
-      const card=document.createElement('div');
-      card.className='card'+(p.freeze?' freeze':'');
-      card.style.animationDelay=`${i*0.1}s`;
-      const badge=statusClass(p.status,p.freeze);
-      card.innerHTML=`
-        <div class="header">
-          <div class="person">
-            <div class="icon">${p.icon||'⭐'}</div>
-            <div class="name">${p.name||''}</div>
+          <div class="hero-meta">
+            <div class="pill">Laatst bijgewerkt <strong id="subtitle">–</strong></div>
+            <div class="pill">Totaal personen <strong id="totalPeople">0</strong></div>
+            <div class="pill">Freeze actief <strong id="freezeCount">0</strong></div>
           </div>
-          <span class="badge ${badge}">${p.freeze?'Freeze':p.status||'–'}</span>
+
+          <div class="stats-overview">
+            <div class="overview-card highlight">
+              <div class="overview-label">Totale punten</div>
+              <div class="overview-value" id="totalPoints">0</div>
+            </div>
+            <div class="overview-card">
+              <div class="overview-label">Gemiddelde streak</div>
+              <div class="overview-value" id="avgStreak">0</div>
+            </div>
+            <div class="overview-card">
+              <div class="overview-label">Hoogste target</div>
+              <div class="overview-value" id="highestTarget">0</div>
+            </div>
+          </div>
         </div>
-        <div class="stats">
-          <div><div class="stat-label">Punten</div><div class="num" data-val="${p.points||0}">0</div></div>
-          <div><div class="stat-label">Target</div><div class="num" data-val="${p.target||0}">0</div></div>
-          <div><div class="stat-label">Streak</div><div class="num" data-val="${p.streak||0}">0</div></div>
-          <div><div class="stat-label">Volgend target</div><div class="num" data-val="${p.next_target||0}">0</div></div>
-        </div>
-        <div class="stat-label" style="margin-top:.6rem;">Sanctie: <span style="color:var(--sub)">${p.sanction||'Geen'}</span></div>
-        <div class="stat-label">Freeze: <span style="color:${p.freeze?'#60a5fa':'#94a3b8'}">${p.freeze?'Ja':'Nee'}</span></div>`;
-      if(p.freeze) createSnow(card);
-      wrapper.appendChild(card);
+      </section>
+
+      <section class="grid" id="cards"></section>
+      <div id="error"></div>
+
+      <footer>
+        Young Advisory Group • Status dashboard
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('mousemove', (e) => {
+      document.body.style.setProperty('--mx', e.clientX + 'px');
+      document.body.style.setProperty('--my', e.clientY + 'px');
     });
-    document.querySelectorAll('.num').forEach(el=>countUp(el,el.dataset.val));
-  }catch(e){
-    document.getElementById('error').textContent='Fout bij laden: '+e.message;
-  }
-}
-load();
-</script>
+
+    function statusClass(status, freeze){
+      if (freeze) return 'blue';
+
+      const s = String(status || '').toLowerCase();
+
+      if (s.includes('groen')) return 'green';
+      if (s.includes('waarschuwing')) return 'yellow';
+      if (s.includes('trakteren')) return 'orange';
+      if (s.includes('tijdelijk') || s.includes('gesprek')) return 'red';
+
+      return 'blue';
+    }
+
+    function countUp(el, value, duration = 1000){
+      const target = Number(value) || 0;
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / (duration / 16)));
+
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+
+        el.textContent = current;
+      }, 16);
+    }
+
+    function formatDateTime(){
+      return new Date().toLocaleString('nl-NL', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function createSnow(container){
+      const snow = document.createElement('div');
+      snow.className = 'snow';
+
+      for (let i = 0; i < 16; i++) {
+        const flake = document.createElement('span');
+        const size = 2 + Math.random() * 4;
+
+        flake.style.left = Math.random() * 100 + '%';
+        flake.style.width = size + 'px';
+        flake.style.height = size + 'px';
+        flake.style.animationDuration = 7 + Math.random() * 5 + 's';
+        flake.style.animationDelay = Math.random() * 6 + 's';
+        flake.style.setProperty('--wind', (Math.random() * 30 - 15) + 'px');
+
+        snow.appendChild(flake);
+      }
+
+      container.appendChild(snow);
+    }
+
+    async function load(){
+      const wrapper = document.getElementById('cards');
+      const error = document.getElementById('error');
+
+      try {
+        const res = await fetch('./status.json', { cache: 'no-store' });
+
+        if (!res.ok) {
+          throw new Error('status.json kon niet worden geladen');
+        }
+
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+          wrapper.innerHTML = '<div class="error">Nog geen statusdata beschikbaar.</div>';
+          return;
+        }
+
+        wrapper.innerHTML = '';
+        error.innerHTML = '';
+
+        const totalPeople = data.length;
+        const freezeCount = data.filter(p => p.freeze).length;
+        const totalPoints = data.reduce((sum, p) => sum + (Number(p.points) || 0), 0);
+        const avgStreak = (data.reduce((sum, p) => sum + (Number(p.streak) || 0), 0) / totalPeople).toFixed(1);
+        const highestTarget = Math.max(...data.map(p => Number(p.target) || 0));
+
+        document.getElementById('subtitle').textContent = formatDateTime();
+        document.getElementById('totalPeople').textContent = totalPeople;
+        document.getElementById('freezeCount').textContent = freezeCount;
+        document.getElementById('avgStreak').textContent = avgStreak;
+        document.getElementById('highestTarget').textContent = highestTarget;
+        countUp(document.getElementById('totalPoints'), totalPoints);
+
+        data.forEach((p) => {
+          const card = document.createElement('article');
+          card.className = 'card' + (p.freeze ? ' freeze' : '');
+
+          const badgeClass = statusClass(p.status, p.freeze);
+          const badgeText = p.freeze ? 'Freeze' : (p.status || 'Onbekend');
+
+          card.innerHTML = `
+            <div class="card-head">
+              <div class="person">
+                <div class="icon">${p.icon || '⭐'}</div>
+                <div class="person-info">
+                  <div class="name">${p.name || 'Onbekend'}</div>
+                  <div class="subline">${p.freeze ? 'Tijdelijk op freeze' : 'Actieve teamstatus'}</div>
+                </div>
+              </div>
+
+              <div class="badge ${badgeClass}">${badgeText}</div>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-label">Punten</div>
+                <div class="stat-value gold num" data-val="${p.points || 0}">0</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-label">Target</div>
+                <div class="stat-value num" data-val="${p.target || 0}">0</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-label">Streak</div>
+                <div class="stat-value num" data-val="${p.streak || 0}">0</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-label">Volgend target</div>
+                <div class="stat-value num" data-val="${p.next_target || 0}">0</div>
+              </div>
+            </div>
+
+            <div class="meta">
+              <div class="meta-row">
+                <span>Sanctie</span>
+                <strong>${p.sanction || 'Geen'}</strong>
+              </div>
+
+              <div class="meta-row">
+                <span>Freeze</span>
+                <strong class="${p.freeze ? 'freeze-flag' : ''}">${p.freeze ? 'Ja' : 'Nee'}</strong>
+              </div>
+            </div>
+          `;
+
+          if (p.freeze) {
+            createSnow(card);
+          }
+
+          wrapper.appendChild(card);
+        });
+
+        document.querySelectorAll('.num').forEach(el => {
+          countUp(el, el.dataset.val);
+        });
+
+      } catch (e) {
+        error.innerHTML = `<div class="error">Fout bij laden: ${e.message}</div>`;
+      }
+    }
+
+    load();
+  </script>
 </body>
 </html>
