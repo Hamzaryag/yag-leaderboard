@@ -1,248 +1,253 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard | Young Advisory Group</title>
-  <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap)" rel="stylesheet">
-  <style>
-    /* ===== Algemene stijl ===== */
-    :root {
-      --bg: #0f172a;
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --border: rgba(255, 255, 255, 0.08);
-      --accent: #38bdf8;
-      --text: #e2e8f0;
-      --subtext: #94a3b8;
-      --radius: 12px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAG Leaderboard – Elite Dashboard</title>
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap)" rel="stylesheet">
+<style>
+/* ===== CORE THEMA ===== */
+:root {
+  --bg: #0f172a;
+  --accent: #38bdf8;
+  --card: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.08);
+  --text: #e2e8f0;
+  --sub: #94a3b8;
+  --radius: 14px;
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-    }
+* { box-sizing:border-box; margin:0; padding:0; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top left, #0f172a, #0a0f1f);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem;
-    }
+body {
+  background: radial-gradient(circle at 30% 10%, #111b2e, #0b1221);
+  color: var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    /* ===== Navigatie ===== */
-    nav {
-      width: 100%;
-      max-width: 1100px;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1rem;
-    }
+/* ===== BACKGROUND STARS ===== */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size:3px 3px;
+  opacity:0.05;
+  animation: stars 160s linear infinite;
+}
+@keyframes stars { from{background-position:0 0;} to{background-position:1000px 1000px;} }
 
-    nav a {
-      color: var(--subtext);
-      text-decoration: none;
-      font-weight: 500;
-      position: relative;
-      transition: color 0.3s;
-    }
+/* ===== NAV ===== */
+nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:2rem;
+  padding:2rem 1rem 1rem;
+}
+nav a{
+  color:var(--sub);
+  font-weight:600;
+  text-decoration:none;
+  position:relative;
+  letter-spacing:0.3px;
+  transition:color 0.4s;
+}
+nav a:hover{ color:var(--accent); }
+nav a.active{ color:var(--accent); }
+nav a.active::after{
+  content:"";
+  position:absolute; bottom:-6px; left:0; right:0;
+  height:2px;
+  background:var(--accent);
+  border-radius:2px;
+  box-shadow:0 0 10px var(--accent);
+}
 
-    nav a:hover,
-    nav a.active {
-      color: var(--accent);
-    }
+/* ===== TITLE ===== */
+h1{
+  text-align:center;
+  font-weight:800;
+  font-size:2.2rem;
+  margin-bottom:1rem;
+  letter-spacing:0.3px;
+}
+.subtitle{
+  text-align:center;
+  color:var(--sub);
+  margin-bottom:2rem;
+  font-size:0.9rem;
+  animation: fadePulse 4s ease-in-out infinite alternate;
+}
+@keyframes fadePulse{from{opacity:0.7;}to{opacity:1;}}
 
-    nav a.active::after {
-      content: "";
-      position: absolute;
-      bottom: -6px;
-      left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-      border-radius: 2px;
-    }
+/* ===== BOARD ===== */
+.board{
+  max-width:900px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  padding:0 1rem 3rem;
+}
 
-    /* ===== Leaderboard container ===== */
-    .leaderboard {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.6s ease forwards;
-    }
+/* ===== ROW / CARD ===== */
+.row{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1rem 1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  overflow:hidden;
+  position:relative;
+  transform:translateY(20px);
+  opacity:0;
+  animation: rowEnter 0.8s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+  backdrop-filter:blur(10px);
+}
+@keyframes rowEnter {
+  to { transform:translateY(0); opacity:1; }
+}
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
+/* subtle moving shine */
+.row::after{
+  content:"";
+  position:absolute;
+  top:0;left:-70%;width:50%;height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.07), transparent);
+  transform:skewX(-15deg);
+}
+.row:hover::after{
+  animation: shine 1.6s ease;
+}
+@keyframes shine{
+  from{left:-70%;}
+  to{left:120%;}
+}
 
-    .row {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInRow 0.6s ease forwards;
-    }
+/* top ranks glow */
+.row.top1{ box-shadow:0 0 25px rgba(56,189,248,0.4); }
+.row.top2{ box-shadow:0 0 20px rgba(148,163,184,0.25); }
+.row.top3{ box-shadow:0 0 15px rgba(148,163,184,0.15); }
 
-    @keyframes fadeInRow {
-      to { opacity: 1; transform: translateY(0); }
-    }
+.rank{ width:40px; text-align:center; font-weight:800; }
 
-    .rank {
-      font-weight: 600;
-      width: 40px;
-      text-align: center;
-    }
+.name{
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  font-weight:600;
+}
+.name .emoji{
+  font-size:1.8rem;
+  display:inline-block;
+  transition: transform 0.6s cubic-bezier(.2,.9,.2,1);
+}
+.row:hover .emoji { transform:rotate(8deg) scale(1.1); }
 
-    .name {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-    }
+.bar{
+  flex:2;
+  height:10px;
+  background:rgba(255,255,255,0.08);
+  border-radius:6px;
+  overflow:hidden;
+  position:relative;
+}
+.progress{
+  height:100%;
+  border-radius:6px;
+  background:linear-gradient(90deg, var(--accent), #0ea5e9, var(--accent));
+  background-size:200%;
+  animation: shimmer 3s linear infinite;
+  width:0;
+  transition: width 1.2s cubic-bezier(.2,.9,.2,1);
+}
+@keyframes shimmer{to{background-position:-200% 0;}}
 
-    .bar {
-      flex: 2;
-      height: 10px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 6px;
-      margin: 0 1rem;
-      overflow: hidden;
-    }
+.score{
+  width:70px;
+  text-align:right;
+  font-weight:700;
+  color:var(--accent);
+  font-size:1.1rem;
+  transform:translateY(6px);
+}
 
-    .progress {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), #0ea5e9);
-      border-radius: 6px;
-      width: 0%;
-      transition: width 1.2s ease;
-    }
-
-    .score {
-      width: 60px;
-      text-align: right;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .timestamp {
-      color: var(--subtext);
-      font-size: 0.9rem;
-      margin-top: 1.5rem;
-    }
-
-    /* Top 3 styling */
-    .row.top1 { box-shadow: 0 0 20px rgba(56,189,248,0.4); }
-    .row.top2 { border-color: rgba(255,255,255,0.15); }
-    .row.top3 { border-color: rgba(255,255,255,0.10); }
-
-    .row:hover {
-      transform: translateY(-4px);
-      transition: transform 0.3s ease;
-    }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 600px) {
-      .row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-      .bar { width: 100%; margin: 0.5rem 0; }
-      .score { width: auto; align-self: flex-end; }
-    }
-
-  </style>
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px){
+  .row{ flex-direction:column; align-items:flex-start; }
+  .bar{ width:100%; margin:.5rem 0; }
+  .score{ align-self:flex-end; margin-top:.3rem; }
+}
+</style>
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="active">Leaderboard</a>
-    <a href="status.html">Status</a>
-    <a href="hof.html">Topper vd maand</a>
-  </nav>
+<nav>
+  <a href="index.html" class="active">Leaderboard</a>
+  <a href="status.html">Status</a>
+  <a href="hof.html">Topper&nbsp;vd&nbsp;maand</a>
+</nav>
 
-  <h1 style="margin-bottom:1rem;">🏆 Acquisition Leaderboard</h1>
-  <div class="leaderboard" id="leaderboard"></div>
-  <div class="timestamp" id="timestamp"></div>
+<h1>🏁 Acquisition Leaderboard</h1>
+<div class="subtitle" id="subtitle">Data wordt geladen...</div>
 
-  <script>
-    // ===== Helper functies =====
-    function countUp(el, target) {
-      let start = 0;
-      const duration = 1200;
-      const stepTime = 15;
-      const increment = target / (duration / stepTime);
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= target) {
-          start = target;
-          clearInterval(timer);
-        }
-        el.textContent = Math.floor(start);
-      }, stepTime);
-    }
+<div class="board" id="board"></div>
 
-    async function loadData() {
-      const leaderboardContainer = document.getElementById('leaderboard');
-      const timestampEl = document.getElementById('timestamp');
-      try {
-        const res = await fetch('scores.json', { cache: 'no-store' });
-        const data = await res.json();
-        data.sort((a,b)=>b.score - a.score);
-        const max = Math.max(...data.map(d=>d.score));
-        leaderboardContainer.innerHTML = "";
-        data.forEach((item, i) => {
-          const row = document.createElement('div');
-          row.className = 'row';
-          if (i===0) row.classList.add('top1');
-          if (i===1) row.classList.add('top2');
-          if (i===2) row.classList.add('top3');
-          row.style.animationDelay = `${i * 0.1}s`; // staggered fade
+<script>
+function countUp(el, target){
+  let start = 0;
+  const duration = 1500;
+  const step = Math.ceil(target/(duration/20));
+  const timer = setInterval(()=> {
+    start += step;
+    if(start >= target){ clearInterval(timer); start = target; }
+    el.textContent = start;
+  },20);
+}
 
-          row.innerHTML = `
-            <div class="rank">${i+1}</div>
-            <div class="name">${item.icon} ${item.name}</div>
-            <div class="bar"><div class="progress"></div></div>
-            <div class="score" data-score="${item.score}">0</div>
-          `;
-          leaderboardContainer.appendChild(row);
+async function loadData(){
+  const board = document.getElementById('board');
+  try{
+    const res = await fetch('./scores.json',{cache:'no-store'});
+    const data = await res.json();
+    data.sort((a,b)=>b.score - a.score);
+    const max = Math.max(...data.map(d=>d.score));
 
-          // Start animations after small delay
-          requestAnimationFrame(()=>{
-            const progress = row.querySelector('.progress');
-            progress.style.width = (item.score / max * 100) + '%';
-            const scoreEl = row.querySelector('.score');
-            countUp(scoreEl, item.score);
-          });
-        });
+    board.innerHTML='';
 
-        // Tijdstempel
-        const now = new Date();
-        timestampEl.textContent = `Laatst bijgewerkt: ${now.toLocaleString('nl-NL')}`;
+    data.forEach((p,i)=>{
+      const row=document.createElement('div');
+      row.className='row';
+      if(i===0) row.classList.add('top1');
+      if(i===1) row.classList.add('top2');
+      if(i===2) row.classList.add('top3');
+      row.style.animationDelay=`${i*0.12}s`;
 
-      } catch (err) {
-        leaderboardContainer.innerHTML = "<p>Fout bij laden van scores.json.</p>";
-        console.error(err);
-      }
-    }
+      row.innerHTML=`
+        <div class="rank">${i+1}</div>
+        <div class="name"><span class="emoji">${p.icon || '⭐'}</span>${p.name}</div>
+        <div class="bar"><div class="progress"></div></div>
+        <div class="score" data-score="${p.score}">0</div>
+      `;
+      board.appendChild(row);
 
-    loadData();
-  </script>
+      requestAnimationFrame(()=>{
+        const progress=row.querySelector('.progress');
+        progress.style.width=(p.score/max*100)+'%';
+        countUp(row.querySelector('.score'),p.score);
+      });
+    });
+    document.getElementById('subtitle').textContent=`Laatst bijgewerkt: ${new Date().toLocaleString('nl-NL')}`;
+  }catch(e){
+    board.innerHTML=`<p style="text-align:center;color:#fca5a5;">Fout bij laden van gegevens: ${e.message}</p>`;
+  }
+}
+loadData();
+</script>
 </body>
 </html>
