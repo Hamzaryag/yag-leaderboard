@@ -3,156 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Leaderboard | Young Advisory Group</title>
+<title>Elite Leaderboard | Young Advisory Group</title>
 <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap)" rel="stylesheet">
 <style>
 :root{
   --bg:#0e1423;
-  --accent:#f4c76c;
-  --gold-light:#fde68a;
+  --gold:#f4c76c;
   --text:#f1f5f9;
   --sub:#94a3b8;
   --card:rgba(255,255,255,.05);
   --border:rgba(255,255,255,.08);
+  --blue:#38bdf8;
   --radius:14px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
-  background:radial-gradient(circle at top left,#131a2e,#060912 120%);
+  background:radial-gradient(circle at 20% 15%,#152034,#060912 120%);
   color:var(--text);
   font-family:'Inter',sans-serif;
-  min-height:100vh;
   overflow-x:hidden;
+  min-height:100vh;
 }
-
-/* ===== Zachtere ambient glow ===== */
-body::after{
+body::before{
   content:"";
   position:fixed;inset:0;
-  background:radial-gradient(800px at var(--mx,50%) var(--my,30%),rgba(244,199,108,.03),transparent 90%);
-  pointer-events:none;
-  transition:background .2s ease-out;
+  background:radial-gradient(800px at var(--mx,50%) var(--my,30%),rgba(244,199,108,.02),transparent 90%);
+  pointer-events:none;transition:background .25s ease-out;
 }
 
-/* ===== Navigatie ===== */
+/* ===== light trail cursor ===== */
+.trail{
+  position:fixed;width:8px;height:8px;
+  border-radius:50%;background:rgba(244,199,108,.5);
+  pointer-events:none;mix-blend-mode:screen;
+  transform:translate(-50%,-50%);
+  transition:opacity .3s;
+  z-index:10000;
+}
+
+/* ===== nav ===== */
 nav{
   display:flex;justify-content:center;gap:2rem;
-  padding:1.8rem 1rem 1rem;
+  padding:1.5rem 1rem 1rem;
+  position:relative;z-index:10;
 }
 nav a{
-  color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .4s;
+  color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .3s;
 }
-nav a:hover{color:var(--gold-light);}
-nav a.active{color:var(--gold-light);}
+nav a:hover,nav a.active{color:var(--gold);}
 nav a.active::after{
   content:"";position:absolute;bottom:-6px;left:0;right:0;height:2px;
-  background:var(--gold-light);border-radius:2px;
-  box-shadow:0 0 8px var(--gold-light);
+  background:var(--gold);border-radius:2px;box-shadow:0 0 8px var(--gold);
 }
 
-/* ===== Achtergrond orbs ===== */
-.bg-orbs{
-  position:fixed;inset:0;overflow:hidden;z-index:-1;
+/* ===== hero intro ===== */
+header{
+  text-align:center;
+  margin-top:.5rem;
+  animation:rise 1s cubic-bezier(.2,.9,.3,1) forwards;
+  opacity:0;transform:translateY(40px);
 }
-.bg-orbs span{
-  position:absolute;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(244,199,108,.10),transparent 70%);
-  animation:float 70s infinite linear;
-  filter:blur(1px);
-}
-.bg-orbs span:nth-child(1){width:220px;height:220px;top:15%;left:12%;animation-delay:0s;}
-.bg-orbs span:nth-child(2){width:260px;height:260px;bottom:15%;right:16%;animation-delay:10s;}
-.bg-orbs span:nth-child(3){width:200px;height:200px;top:55%;right:40%;animation-delay:20s;}
-@keyframes float{
-  0%{transform:translateY(0) rotate(0deg);}
-  50%{transform:translateY(-30px) rotate(180deg);}
-  100%{transform:translateY(0) rotate(360deg);}
-}
-
-/* ===== Titel + metrics ===== */
-header{text-align:center;margin-top:1rem;margin-bottom:2rem;}
-h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
-.subtitle{display:none;} /* verwijderde tekst */
+@keyframes rise{to{opacity:1;transform:translateY(0);}}
+h1{font-size:2.5rem;font-weight:800;letter-spacing:.5px;}
 .metrics{
-  margin-top:1.2rem;font-size:.95rem;color:var(--sub);
+  margin-top:1rem;font-size:.95rem;color:var(--sub);
   display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;
 }
-.metric span{color:var(--gold-light);font-weight:700;}
+.metric span{color:var(--gold);font-weight:700;}
 
-/* ===== Leaderboard ===== */
-.board{
-  max-width:900px;margin:0 auto;padding:0 1rem 4rem;
-  display:flex;flex-direction:column;gap:1rem;
+/* ===== parallax depth layers ===== */
+.layer{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+}
+.layer.gold{
+  background:radial-gradient(circle at 30% 20%,rgba(244,199,108,.07),transparent 70%);
+}
+.layer.blue{
+  background:radial-gradient(circle at 70% 80%,rgba(56,189,248,.06),transparent 70%);
 }
 
-/* ===== Rij / kaart ===== */
+/* ===== leaderboard container ===== */
+.board{
+  max-width:900px;margin:2rem auto 4rem;padding:0 1rem;
+  display:flex;flex-direction:column;gap:1rem;
+  perspective:800px;
+}
+
+/* ===== leaderboard row ===== */
 .row{
-  position:relative;
-  background:var(--card);
+  position:relative;background:var(--card);
   border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:1.1rem 1.3rem;
+  padding:1rem 1.2rem;
   display:flex;align-items:center;justify-content:space-between;
-  overflow:hidden;
-  transform:translateY(25px);
-  opacity:0;
-  animation:fadeUp .9s cubic-bezier(.2,.9,.2,1) forwards;
   backdrop-filter:blur(10px);
+  transform:translateY(30px) rotateX(10deg);
+  opacity:0;animation:stagger .8s forwards cubic-bezier(.2,.9,.2,1);
 }
-@keyframes fadeUp{to{transform:translateY(0);opacity:1;}}
-
-/* Shine overlay */
-.row::after{
-  content:"";
-  position:absolute;top:0;left:-70%;width:50%;height:100%;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.07),transparent);
-  transform:skewX(-15deg);
+@keyframes stagger{to{opacity:1;transform:translateY(0) rotateX(0);}}
+.row:hover{
+  transform:translateY(-4px) rotateX(0);transition:transform .3s,box-shadow .3s;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
-.row:hover::after{animation:shine 1.8s ease;}
-@keyframes shine{from{left:-70%;}to{left:130%;}}
 
-/* ===== Kroontje precies boven avatar ===== */
+/* ===== crown centered on avatar ===== */
 .row.top1::before{
   content:"👑";
-  position:absolute;
-  top:-8px;
-  left:52px;
-  font-size:1.7rem;
+  position:absolute;top:4px;left:70px;
+  transform:translateX(-50%);
+  font-size:1.8rem;
   filter:drop-shadow(0 0 6px rgba(244,199,108,.9));
   animation:crownFloat 3s ease-in-out infinite;
 }
-@keyframes crownFloat{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-6px);}
-}
-.row.top1{box-shadow:0 0 35px rgba(244,199,108,.5);border-color:rgba(244,199,108,.3);}
+@keyframes crownFloat{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-6px);}}
 
-/* Pulse ring rond avatar */
-.row.top1 .emoji::after{
-  content:"";position:absolute;inset:-6px;
-  border-radius:50%;border:2px solid rgba(244,199,108,.35);
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{
-  0%,100%{transform:scale(1);opacity:.5;}
-  50%{transform:scale(1.15);opacity:1;}
-}
+/* ===== styles by rank ===== */
+.row.top1{box-shadow:0 0 25px rgba(244,199,108,.4);}
+.row.top2,.row.top3{box-shadow:0 0 15px rgba(56,189,248,.2);}
 
+/* ===== content columns ===== */
 .rank{width:40px;text-align:center;font-weight:800;}
 .name{
-  flex:1;display:flex;align-items:center;gap:.6rem;font-weight:600;position:relative;
+  flex:1;display:flex;align-items:center;gap:.6rem;font-weight:600;
 }
 .emoji{
-  position:relative;
-  font-size:1.8rem;transition:transform .6s cubic-bezier(.2,.9,.2,1);
+  position:relative;font-size:1.8rem;
+  transition:transform .5s cubic-bezier(.2,.9,.2,1);
 }
-.row:hover .emoji{transform:rotate(6deg) scale(1.15);}
+.row:hover .emoji{transform:rotate(6deg) scale(1.1);}
 
 .bar{
   flex:2;height:10px;background:rgba(255,255,255,.07);
-  border-radius:6px;overflow:hidden;position:relative;
+  border-radius:6px;overflow:hidden;
 }
 .progress{
   height:100%;border-radius:6px;width:0;
@@ -162,38 +144,46 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 }
 @keyframes shimmer{to{background-position:-200% 0;}}
 
-/* kleurgradients per rang */
+/* bar colors */
 .row.top1 .progress{background:linear-gradient(90deg,#facc15,#fde68a,#fbcf04);}
-.row.top2 .progress{background:linear-gradient(90deg,#9aa5b5,#ced3d9);}
-.row.top3 .progress{background:linear-gradient(90deg,#b45309,#facc15);}
-.progress{background:linear-gradient(90deg,#cbd5e1,#facc15);}
+.progress{background:linear-gradient(90deg,var(--blue),#2563eb);}
 
 .score{
   width:70px;text-align:right;font-weight:700;
-  color:var(--gold-light);font-size:1.2rem;
+  color:var(--gold);font-size:1.1rem;
 }
 
-/* ===== Responsief ===== */
+/* hover tilt physics */
+@media(hover:hover){
+  .row:hover{
+    transform:rotateX(2deg) rotateY(1deg) translateY(-6px);
+  }
+}
+
+/* responsive */
 @media(max-width:600px){
   .row{flex-direction:column;align-items:flex-start;}
   .bar{width:100%;margin:.6rem 0;}
   .score{align-self:flex-end;}
-  h1{font-size:1.9rem;}
 }
+
+/* confetti canvas hidden behind UI */
+canvas.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;}
 </style>
 </head>
 <body>
 
-<div class="bg-orbs"><span></span><span></span><span></span></div>
+<div class="layer gold"></div>
+<div class="layer blue"></div>
 
 <nav>
   <a href="index.html" class="active">Leaderboard</a>
   <a href="status.html">Status</a>
-  <a href="hof.html">Topper&nbsp;vd&nbsp;maand</a>
+  <a href="hof.html">Topper vd maand</a>
 </nav>
 
 <header>
-  <h1>🏆 Acquisitie Leaderboard</h1>
+  <h1>🏆 Elite Acquisition Leaderboard</h1>
   <div class="metrics">
     <div class="metric">Totaal punten <span id="totPoints">0</span></div>
     <div class="metric">Spelers <span id="players">0</span></div>
@@ -202,14 +192,51 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 </header>
 
 <div class="board" id="board"></div>
+<canvas class="confetti"></canvas>
+<div class="trail" id="trail"></div>
 
 <script>
-// zachtere muisgloed
+/* light-follow */
 document.addEventListener('mousemove',e=>{
   document.body.style.setProperty('--mx',e.clientX+'px');
   document.body.style.setProperty('--my',e.clientY+'px');
 });
 
+/* light trail */
+const trail=document.getElementById('trail');
+let lastX=0,lastY=0;
+document.addEventListener('mousemove',e=>{
+  lastX=e.clientX;lastY=e.clientY;
+});
+function animateTrail(){
+  trail.style.left=lastX+'px';trail.style.top=lastY+'px';
+  requestAnimationFrame(animateTrail);
+}
+animateTrail();
+
+/* confetti burst for #1 */
+function doConfetti(){
+  const canvas=document.querySelector('canvas.confetti');
+  const ctx=canvas.getContext('2d');
+  canvas.width=innerWidth;canvas.height=innerHeight;
+  const particles=[];
+  for(let i=0;i<80;i++){
+    particles.push({x:canvas.width/2,y:canvas.height/2,
+      c:`hsl(${Math.random()*50+40},90%,60%)`,
+      r:2+Math.random()*3,vx:(Math.random()-0.5)*6,vy:Math.random()*-6});
+  }
+  const tick=()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.r*=0.98;
+    });
+    if(particles.some(p=>p.r>0.5))requestAnimationFrame(tick);
+  }
+  tick();setTimeout(()=>ctx.clearRect(0,0,canvas.width,canvas.height),3000);
+}
+
+/* count-up */
 function countUp(el,target,dur=1500){
   let start=0;
   const step=Math.max(1,Math.ceil(target/(dur/20)));
@@ -220,6 +247,16 @@ function countUp(el,target,dur=1500){
   },20);
 }
 
+/* parallax move layers */
+document.addEventListener('mousemove',e=>{
+  const x=(e.clientX/window.innerWidth-.5)*20;
+  const y=(e.clientY/window.innerHeight-.5)*20;
+  document.querySelectorAll('.layer').forEach(l=>{
+    l.style.transform=`translate(${x}px,${y}px)`;
+  });
+});
+
+/* load data */
 async function loadData(){
   const board=document.getElementById('board');
   try{
@@ -240,7 +277,7 @@ async function loadData(){
       if(i===0)row.classList.add('top1');
       if(i===1)row.classList.add('top2');
       if(i===2)row.classList.add('top3');
-      row.style.animationDelay=`${i*0.12}s`;
+      row.style.animationDelay=`${i*0.1}s`;
       row.innerHTML=`
         <div class="rank">${i+1}</div>
         <div class="name"><span class="emoji">${p.icon||'⭐'}</span>${p.name}</div>
@@ -249,13 +286,15 @@ async function loadData(){
       board.appendChild(row);
       const prog=row.querySelector('.progress');
       const sc=row.querySelector('.score');
+
       requestAnimationFrame(()=>{
         prog.style.width=(p.score/max*100)+'%';
         countUp(sc,p.score);
+        if(i===0)doConfetti();
       });
     });
   }catch(e){
-    board.innerHTML=`<p style="text-align:center;color:#fca5a5;">Fout bij laden van JSON: ${e.message}</p>`;
+    board.innerHTML=`<p style="text-align:center;color:#fca5a5;">Fout bij laden: ${e.message}</p>`;
   }
 }
 loadData();
