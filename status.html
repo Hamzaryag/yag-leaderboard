@@ -1,294 +1,199 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow">
-  <title>Acquisitie status</title>
-  <style>
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:#0f172a;
-      color:white;
-      padding:34px 16px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Acquisitiestatus | Young Advisory Group</title>
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap)" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e1423;
+  --gold:#f4c76c;
+  --text:#f1f5f9;
+  --sub:#94a3b8;
+  --card:rgba(255,255,255,.05);
+  --border:rgba(255,255,255,.08);
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:radial-gradient(circle at top left,#131a2e,#060912 120%);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    .wrap{
-      max-width:1200px;
-      margin:0 auto;
-    }
+/* Ambient light */
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  background:radial-gradient(600px at var(--mx,50%) var(--my,30%),rgba(244,199,108,.08),transparent 80%);
+  pointer-events:none;transition:background .2s;
+}
 
-    .nav{
-      display:flex;
-      gap:12px;
-      margin-bottom:25px;
-      flex-wrap:wrap;
-    }
+/* Nav */
+nav{
+  display:flex;justify-content:center;gap:2rem;
+  padding:1.8rem 1rem 1rem;
+}
+nav a{color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .4s;}
+nav a:hover{color:var(--gold);}
+nav a.active{color:var(--gold);}
+nav a.active::after{
+  content:"";position:absolute;bottom:-6px;left:0;right:0;height:2px;
+  background:var(--gold);border-radius:2px;box-shadow:0 0 8px var(--gold);
+}
 
-    .nav a{
-      color:white;
-      text-decoration:none;
-      padding:10px 14px;
-      background:#1e293b;
-      border-radius:10px;
-      font-weight:bold;
-    }
+/* Header */
+h1{text-align:center;font-size:2.2rem;font-weight:800;margin-bottom:.3rem;}
+.subtitle{text-align:center;color:var(--sub);margin-bottom:2rem;animation:fadePulse 3s infinite alternate;}
+@keyframes fadePulse{from{opacity:.7;}to{opacity:1;}}
 
-    .nav a:hover{
-      background:#334155;
-    }
+/* Cards / table container */
+.wrapper{
+  max-width:1100px;margin:0 auto;padding:0 1rem 4rem;
+  display:flex;flex-direction:column;gap:1rem;
+}
 
-    h1{
-      margin:0 0 8px 0;
-      text-align:center;
-      font-size:34px;
-    }
+/* Table styling desktop */
+table{width:100%;border-collapse:collapse;}
+th,td{padding:14px 12px;text-align:left;font-size:14px;border-bottom:1px solid var(--border);}
+th{color:var(--sub);text-transform:uppercase;font-size:12px;letter-spacing:.05em;}
+tr{background:var(--card);backdrop-filter:blur(8px);opacity:0;transform:translateY(20px);
+    animation:fadeUp .8s cubic-bezier(.2,.9,.2,1) forwards;}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
 
-    .sub{
-      margin:0 0 18px 0;
-      text-align:center;
-      color:#94a3b8;
-      font-size:13px;
-    }
+/* Badges */
+.badge{
+  display:inline-block;padding:6px 10px;
+  border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;
+  box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+.green{color:#22c55e;background:rgba(34,197,94,.12);}
+.yellow{color:#facc15;background:rgba(250,204,21,.12);}
+.orange{color:#fb923c;background:rgba(251,146,60,.12);}
+.red{color:#ef4444;background:rgba(239,68,68,.12);}
+.blue{color:#3b82f6;background:rgba(59,130,246,.12);}
+.badge.pulse{animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px transparent;}50%{box-shadow:0 0 10px currentColor;}}
 
-    .card{
-      background:#111c33;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow: 0 18px 55px rgba(0,0,0,.35);
-    }
+/* Person cell */
+.person{display:flex;align-items:center;gap:10px;font-weight:700;}
+.icon{
+  width:36px;height:36px;border-radius:50%;
+  background:#334155;display:flex;align-items:center;justify-content:center;
+  font-size:18px;position:relative;overflow:hidden;
+  transition:transform .4s;
+}
+tr:hover .icon{transform:scale(1.15) rotate(6deg);}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-    }
+/* Responsive: table->cards */
+@media(max-width:750px){
+  table,thead,tr,th,td{display:block;width:100%;}
+  thead{display:none;}
+  tr{margin-bottom:1rem;border-radius:var(--radius);overflow:hidden;box-shadow:0 0 20px rgba(0,0,0,.3);}
+  td{border:none;padding:10px 14px;}
+  td::before{
+    content:attr(data-label);
+    display:block;font-size:11px;text-transform:uppercase;color:var(--sub);margin-bottom:2px;
+  }
+}
 
-    th, td{
-      padding:14px 12px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      text-align:left;
-      vertical-align:middle;
-      font-size:14px;
-    }
-
-    th{
-      background:rgba(255,255,255,.04);
-      color:#cbd5e1;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-    }
-
-    tr:last-child td{
-      border-bottom:none;
-    }
-
-    .person{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:700;
-    }
-
-    .icon{
-      width:36px;
-      height:36px;
-      border-radius:50%;
-      background:#334155;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:18px;
-      flex:0 0 auto;
-    }
-
-    .badge{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .green{
-      color:#22c55e;
-      background:rgba(34,197,94,.12);
-    }
-
-    .yellow{
-      color:#facc15;
-      background:rgba(250,204,21,.12);
-    }
-
-    .orange{
-      color:#fb923c;
-      background:rgba(251,146,60,.12);
-    }
-
-    .red{
-      color:#ef4444;
-      background:rgba(239,68,68,.12);
-    }
-
-    .blue{
-      color:#60a5fa;
-      background:rgba(96,165,250,.12);
-    }
-
-    .muted{
-      color:#94a3b8;
-    }
-
-    .center{
-      text-align:center;
-    }
-
-    .error{
-      margin-top:14px;
-      color:#fca5a5;
-      font-size:12px;
-      text-align:center;
-      display:none;
-    }
-
-    @media (max-width: 900px){
-      th:nth-child(4),
-      td:nth-child(4),
-      th:nth-child(7),
-      td:nth-child(7){
-        display:none;
-      }
-    }
-
-    @media (max-width: 700px){
-      th:nth-child(5),
-      td:nth-child(5),
-      th:nth-child(6),
-      td:nth-child(6){
-        display:none;
-      }
-
-      h1{
-        font-size:28px;
-      }
-    }
-  </style>
+/* Error */
+.err{color:#fca5a5;text-align:center;margin-top:1rem;font-size:.9rem;}
+</style>
 </head>
-
 <body>
-  <div class="wrap">
+<nav>
+  <a href="index.html">Leaderboard</a>
+  <a href="status.html" class="active">Status</a>
+  <a href="hof.html">Topper&nbsp;vd&nbsp;maand</a>
+</nav>
 
-    <div class="nav">
-      <a href="./index.html">Leaderboard</a>
-      <a href="./status.html">Status</a>
-      <a href="./hof.html">Topper vd maand</a>
-    </div>
+<h1>📊 Acquisitie Status</h1>
+<p class="subtitle" id="subtitle">Statusoverzicht per persoon</p>
 
-    <h1>Acquisitie status</h1>
-    <div class="sub" id="subtitle">Actuele status per persoon</div>
+<div class="wrapper">
+  <table id="table">
+    <thead>
+      <tr>
+        <th>Naam</th><th>Status</th><th>Punten</th><th>Target</th>
+        <th>Streak</th><th>Sanctie</th><th>Freeze</th><th>Volgend target</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+<div id="error" class="err"></div>
 
-    <div class="card">
-      <table id="table">
-        <thead>
-          <tr>
-            <th>Naam</th>
-            <th>Status</th>
-            <th>Punten</th>
-            <th>Target</th>
-            <th>Streak</th>
-            <th>Sanctie</th>
-            <th>Freeze</th>
-            <th>Volgend target</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
+<script>
+// ambient glow
+document.addEventListener('mousemove',e=>{
+  document.body.style.setProperty('--mx',e.clientX+'px');
+  document.body.style.setProperty('--my',e.clientY+'px');
+});
 
-    <div class="error" id="err"></div>
-  </div>
+// badge kleur bepalen
+function statusClass(status,freeze){
+  if(freeze) return 'blue';
+  const s=String(status||'').toLowerCase();
+  if(s.includes('groen')) return 'green';
+  if(s.includes('waarschuwing')) return 'yellow';
+  if(s.includes('trakteren')) return 'orange';
+  if(s.includes('tijdelijk')||s.includes('gesprek')) return 'red';
+  return 'blue';
+}
 
-  <script>
-    function toText(value, fallback = "-") {
-      if (value === null || value === undefined || value === "") return fallback;
-      return value;
-    }
+// count-up
+function countUp(el,target,dur=1000){
+  let start=0;
+  const step=Math.max(1,Math.ceil(target/(dur/16)));
+  const timer=setInterval(()=>{
+    start+=step;
+    if(start>=target){start=target;clearInterval(timer);}
+    el.textContent=start;
+  },16);
+}
 
-    function statusClass(status, freeze) {
-      if (freeze === true) return "blue";
+async function load(){
+  const tbody=document.getElementById('tbody');
+  try{
+    const res=await fetch('./status.json',{cache:'no-store'});
+    const data=await res.json();
+    tbody.innerHTML='';
+    const now=new Date();
+    document.getElementById('subtitle').textContent=`Laatst bijgewerkt op ${now.toLocaleString('nl-NL')}`;
 
-      const s = String(status || "").toLowerCase();
+    data.forEach((p,i)=>{
+      const tr=document.createElement('tr');
+      tr.style.animationDelay=`${i*0.1}s`;
+      const badge=statusClass(p.status,p.freeze);
+      const statusLabel=p.freeze?'Freeze':p.status||'–';
 
-      if (s.includes("groen") || s.includes("gehaald")) return "green";
-      if (s.includes("waarschuwing")) return "yellow";
-      if (s.includes("trakteren")) return "orange";
-      if (s.includes("tijdelijk niet op projecten")) return "red";
-      if (s.includes("gesprek met hri")) return "red";
+      const cells=[
+        `<td data-label="Naam"><div class="person"><div class="icon">${p.icon||'⭐'}</div>${p.name||''}</div></td>`,
+        `<td data-label="Status"><span class="badge ${badge} pulse">${statusLabel}</span></td>`,
+        `<td data-label="Punten" class="num" data-val="${p.points||0}">0</td>`,
+        `<td data-label="Target" class="num" data-val="${p.target||0}">0</td>`,
+        `<td data-label="Streak" class="num" data-val="${p.streak||0}">0</td>`,
+        `<td data-label="Sanctie">${p.sanction||'–'}</td>`,
+        `<td data-label="Freeze">${p.freeze?'Ja':'Nee'}</td>`,
+        `<td data-label="Volgend target" class="num" data-val="${p.next_target||0}">0</td>`
+      ];
+      tr.innerHTML=cells.join('');
+      tbody.appendChild(tr);
+    });
 
-      return "blue";
-    }
-
-    function yesNo(value) {
-      return value === true ? "Ja" : "Nee";
-    }
-
-    async function load(){
-      try{
-        const res = await fetch("./status.json", { cache: "no-store" });
-        if(!res.ok){
-          throw new Error("status.json niet gevonden. Controleer of het bestand in de repo staat en is gecommit.");
-        }
-
-        const data = await res.json();
-        const tbody = document.getElementById("tbody");
-        tbody.innerHTML = "";
-
-        const now = new Date();
-        document.getElementById("subtitle").textContent =
-          `Update: ${now.toLocaleString("nl-NL")} · Bron: status.json`;
-
-        data.forEach(p => {
-          const row = document.createElement("tr");
-
-          const badgeClass = statusClass(p.status, p.freeze);
-          const statusLabel = p.freeze === true ? "Freeze" : toText(p.status);
-          const sanctionLabel = toText(p.sanction);
-          const points = toText(p.points, "0");
-          const target = p.freeze === true ? "Vrijgesteld" : toText(p.target, "10");
-          const streak = toText(p.streak, "0");
-          const freeze = yesNo(p.freeze);
-          const nextTarget = toText(p.next_target, "10");
-
-          row.innerHTML = `
-            <td>
-              <div class="person">
-                <div class="icon">${p.icon || "⭐"}</div>
-                <div>${toText(p.name, "")}</div>
-              </div>
-            </td>
-            <td><span class="badge ${badgeClass}">${statusLabel}</span></td>
-            <td>${points}</td>
-            <td>${target}</td>
-            <td>${streak}</td>
-            <td>${sanctionLabel}</td>
-            <td>${freeze}</td>
-            <td>${nextTarget}</td>
-          `;
-
-          tbody.appendChild(row);
-        });
-
-      } catch(e){
-        const err = document.getElementById("err");
-        err.style.display = "block";
-        err.textContent = "Fout: " + e.message;
-      }
-    }
-
-    load();
-  </script>
+    // na DOM insert alle count-ups starten
+    document.querySelectorAll('.num').forEach(el=>{
+      countUp(el,Number(el.dataset.val));
+    });
+  }catch(e){
+    document.getElementById('error').textContent='Fout: '+e.message;
+  }
+}
+load();
+</script>
 </body>
 </html>
