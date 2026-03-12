@@ -1,277 +1,248 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow">
-  <title>YAG Acquisitie Leaderboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard | Young Advisory Group</title>
+  <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap)" rel="stylesheet">
   <style>
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:#0f172a;
-      color:#fff;
-      padding:34px 16px;
+    /* ===== Algemene stijl ===== */
+    :root {
+      --bg: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #38bdf8;
+      --text: #e2e8f0;
+      --subtext: #94a3b8;
+      --radius: 12px;
     }
 
-    .wrap{max-width:1100px;margin:0 auto;}
-
-    /* NAVIGATIE */
-    .nav{
-      display:flex;
-      gap:12px;
-      margin-bottom:25px;
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
     }
 
-    .nav a{
-      color:white;
-      text-decoration:none;
-      padding:10px 14px;
-      background:#1e293b;
-      border-radius:10px;
-      font-weight:bold;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, #0f172a, #0a0f1f);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
     }
 
-    .nav a:hover{
-      background:#334155;
+    /* ===== Navigatie ===== */
+    nav {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
     }
 
-    h1{margin:0 0 8px 0;text-align:center;font-size:34px;}
-    .sub{margin:0 0 18px 0;text-align:center;color:#94a3b8;font-size:13px;}
-
-    .board{
-      background:#111c33;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    nav a {
+      color: var(--subtext);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
     }
 
-    .headerRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:14px 16px;
-      background:rgba(255,255,255,.04);
-      border-bottom:1px solid rgba(255,255,255,.08);
-      color:#cbd5e1;
-      font-size:12px;
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
     }
 
-    .lane{
-      display:grid;
-      grid-template-columns: 260px 1fr 90px;
-      gap:14px;
-      align-items:center;
-      padding:12px 16px;
-      border-bottom:1px solid rgba(255,255,255,.07);
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
     }
 
-    .lane:last-child{border-bottom:none;}
-
-    .lane.top{
-      background:linear-gradient(90deg, rgba(245, 158, 11, .12), rgba(245, 158, 11, .03));
-      box-shadow: inset 0 0 0 1px rgba(245, 158, 11, .18);
+    /* ===== Leaderboard container ===== */
+    .leaderboard {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease forwards;
     }
 
-    .who{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .avatar{
-      width:46px;height:46px;
-      border-radius:50%;
-      border:2px solid #fff;
-      background:#334155;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:24px;
-      flex:0 0 auto;
-      transition: all .35s ease;
+    .row {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInRow 0.6s ease forwards;
     }
 
-    .lane.top .avatar{
-      width:54px;
-      height:54px;
-      font-size:28px;
-      border-color:#fbbf24;
-      box-shadow: 0 0 18px rgba(251, 191, 36, .35);
+    @keyframes fadeInRow {
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .name{
-      font-weight:800;
-      font-size:14px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+    .rank {
+      font-weight: 600;
+      width: 40px;
+      text-align: center;
     }
 
-    .lane.top .name{
-      font-size:15px;
+    .name {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
     }
 
-    .rail{
-      position:relative;
-      height:22px;
-      border-radius:999px;
-      background: linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
+    .bar {
+      flex: 2;
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      margin: 0 1rem;
+      overflow: hidden;
     }
 
-    .lane.top .rail{
-      border-color: rgba(251, 191, 36, .35);
-      box-shadow: inset 0 0 10px rgba(251, 191, 36, .08);
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #0ea5e9);
+      border-radius: 6px;
+      width: 0%;
+      transition: width 1.2s ease;
     }
 
-    .finish{
-      position:absolute;
-      right:8px;
-      top:50%;
-      transform:translateY(-50%);
-      font-size:12px;
-      opacity:.9;
+    .score {
+      width: 60px;
+      text-align: right;
+      font-weight: 600;
+      color: var(--accent);
     }
 
-    .dot{
-      position:absolute;
-      top:50%;
-      transform:translate(-50%,-50%);
-      width:34px;height:34px;
-      border-radius:50%;
-      border:2px solid rgba(255,255,255,.95);
-      background:#0b1220;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:18px;
-      transition:left 1s cubic-bezier(.2,.9,.2,1);
-      box-shadow: 0 10px 18px rgba(0,0,0,.25);
+    .timestamp {
+      color: var(--subtext);
+      font-size: 0.9rem;
+      margin-top: 1.5rem;
     }
 
-    .lane.top .dot{
-      width:38px;
-      height:38px;
-      font-size:20px;
-      border-color:#fbbf24;
-      box-shadow: 0 0 16px rgba(251, 191, 36, .28);
+    /* Top 3 styling */
+    .row.top1 { box-shadow: 0 0 20px rgba(56,189,248,0.4); }
+    .row.top2 { border-color: rgba(255,255,255,0.15); }
+    .row.top3 { border-color: rgba(255,255,255,0.10); }
+
+    .row:hover {
+      transform: translateY(-4px);
+      transition: transform 0.3s ease;
     }
 
-    .score{
-      text-align:right;
-      font-weight:900;
-      color:#e2e8f0;
-      font-size:14px;
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .bar { width: 100%; margin: 0.5rem 0; }
+      .score { width: auto; align-self: flex-end; }
     }
 
-    .lane.top .score{
-      color:#fde68a;
-      font-size:15px;
-    }
-
-    .error{
-      margin-top:14px;
-      color:#fca5a5;
-      font-size:12px;
-      text-align:center;
-      display:none;
-    }
   </style>
 </head>
-
 <body>
+  <nav>
+    <a href="index.html" class="active">Leaderboard</a>
+    <a href="status.html">Status</a>
+    <a href="hof.html">Topper vd maand</a>
+  </nav>
 
-<div class="wrap">
+  <h1 style="margin-bottom:1rem;">🏆 Acquisition Leaderboard</h1>
+  <div class="leaderboard" id="leaderboard"></div>
+  <div class="timestamp" id="timestamp"></div>
 
-<div class="nav">
-<a href="./index.html">Leaderboard</a>
-<a href="./status.html">Status</a>
-<a href="./hof.html">Topper vd maand</a>
-</div>
+  <script>
+    // ===== Helper functies =====
+    function countUp(el, target) {
+      let start = 0;
+      const duration = 1200;
+      const stepTime = 15;
+      const increment = target / (duration / stepTime);
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          start = target;
+          clearInterval(timer);
+        }
+        el.textContent = Math.floor(start);
+      }, stepTime);
+    }
 
-<h1>🏆 YAGA Acquisitie Leaderboard</h1>
-<div class="sub" id="subtitle">Automatisch gesorteerd op score</div>
+    async function loadData() {
+      const leaderboardContainer = document.getElementById('leaderboard');
+      const timestampEl = document.getElementById('timestamp');
+      try {
+        const res = await fetch('scores.json', { cache: 'no-store' });
+        const data = await res.json();
+        data.sort((a,b)=>b.score - a.score);
+        const max = Math.max(...data.map(d=>d.score));
+        leaderboardContainer.innerHTML = "";
+        data.forEach((item, i) => {
+          const row = document.createElement('div');
+          row.className = 'row';
+          if (i===0) row.classList.add('top1');
+          if (i===1) row.classList.add('top2');
+          if (i===2) row.classList.add('top3');
+          row.style.animationDelay = `${i * 0.1}s`; // staggered fade
 
-<div class="board" id="board">
-      <div class="headerRow">
-        <span>Naam</span>
-        <span>Progress</span>
-        <span>Score</span>
-      </div>
-      <div id="lanes"></div>
-    </div>
+          row.innerHTML = `
+            <div class="rank">${i+1}</div>
+            <div class="name">${item.icon} ${item.name}</div>
+            <div class="bar"><div class="progress"></div></div>
+            <div class="score" data-score="${item.score}">0</div>
+          `;
+          leaderboardContainer.appendChild(row);
 
-    <div class="error" id="err"></div>
-  </div>
-
-<script>
-  function clamp(n,a,b){ return Math.max(a, Math.min(b,n)); }
-
-  async function load(){
-    try{
-      const res = await fetch('./scores.json', { cache: 'no-store' });
-      if(!res.ok) throw new Error('scores.json niet gevonden. Staat het bestand in je repo en is het gecommit?');
-
-      const data = await res.json();
-      data.forEach(p => p.score = Number(p.score || 0));
-
-      data.sort((a,b) => (b.score - a.score) || String(a.name).localeCompare(String(b.name)));
-
-      const maxScore = Math.max(1, ...data.map(p => p.score));
-
-      const now = new Date();
-      document.getElementById('subtitle').textContent =
-        `Update: ${now.toLocaleString('nl-NL')} · Max score: ${maxScore}`;
-
-      const lanes = document.getElementById('lanes');
-      lanes.innerHTML = "";
-
-      data.forEach((p, i) => {
-
-        let medal = "";
-        if(i === 0) medal = "🥇";
-        if(i === 1) medal = "🥈";
-        if(i === 2) medal = "🥉";
-
-        const leftPct = clamp((p.score / maxScore) * 94 + 2, 2, 96);
-
-        const lane = document.createElement('div');
-        lane.className = i === 0 ? 'lane top' : 'lane';
-        lane.innerHTML = `
-          <div class="who">
-            <div class="avatar">${p.icon || "⭐"}</div>
-            <div class="name">${p.name || ""}</div>
-          </div>
-
-          <div class="rail">
-            <div class="finish">🏁</div>
-            <div class="dot" style="left:2%;">${p.icon || "⭐"}</div>
-          </div>
-
-          <div class="score">${medal} ${p.score}</div>
-        `;
-        lanes.appendChild(lane);
-
-        const dot = lane.querySelector('.dot');
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            dot.style.left = `${leftPct}%`;
+          // Start animations after small delay
+          requestAnimationFrame(()=>{
+            const progress = row.querySelector('.progress');
+            progress.style.width = (item.score / max * 100) + '%';
+            const scoreEl = row.querySelector('.score');
+            countUp(scoreEl, item.score);
           });
         });
-      });
 
-    } catch(e){
-      const err = document.getElementById('err');
-      err.style.display = 'block';
-      err.textContent = 'Fout: ' + e.message;
+        // Tijdstempel
+        const now = new Date();
+        timestampEl.textContent = `Laatst bijgewerkt: ${now.toLocaleString('nl-NL')}`;
+
+      } catch (err) {
+        leaderboardContainer.innerHTML = "<p>Fout bij laden van scores.json.</p>";
+        console.error(err);
+      }
     }
-  }
 
-  load();
-</script>
+    loadData();
+  </script>
 </body>
 </html>
