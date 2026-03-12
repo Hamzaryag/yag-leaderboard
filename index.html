@@ -26,13 +26,13 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== Ambient glow (volgt muis) ===== */
+/* ===== Zachtere ambient glow ===== */
 body::after{
   content:"";
   position:fixed;inset:0;
-  background:radial-gradient(600px at var(--mx,50%) var(--my,30%),rgba(244,199,108,.08),transparent 80%);
+  background:radial-gradient(800px at var(--mx,50%) var(--my,30%),rgba(244,199,108,.03),transparent 90%);
   pointer-events:none;
-  transition:background .2s;
+  transition:background .2s ease-out;
 }
 
 /* ===== Navigatie ===== */
@@ -41,8 +41,7 @@ nav{
   padding:1.8rem 1rem 1rem;
 }
 nav a{
-  color:var(--sub);text-decoration:none;font-weight:600;position:relative;
-  transition:color .4s;
+  color:var(--sub);text-decoration:none;font-weight:600;position:relative;transition:color .4s;
 }
 nav a:hover{color:var(--gold-light);}
 nav a.active{color:var(--gold-light);}
@@ -57,12 +56,11 @@ nav a.active::after{
   position:fixed;inset:0;overflow:hidden;z-index:-1;
 }
 .bg-orbs span{
-  position:absolute;
-  border-radius:50%;
+  position:absolute;border-radius:50%;
   background:radial-gradient(circle,rgba(244,199,108,.18),transparent 70%);
   animation:float 60s infinite linear;
 }
-.bg-orbs span:nth-child(1){width:300px;height:300px;top:10%;left:10%;animation-delay:0s;}
+.bg-orbs span:nth-child(1){width:300px;height:300px;top:10%;left:10%;}
 .bg-orbs span:nth-child(2){width:400px;height:400px;bottom:10%;right:15%;animation-delay:10s;}
 .bg-orbs span:nth-child(3){width:250px;height:250px;top:50%;right:40%;animation-delay:20s;}
 @keyframes float{
@@ -71,10 +69,10 @@ nav a.active::after{
   100%{transform:translateY(0) rotate(360deg);}
 }
 
-/* ===== Titel + stats ===== */
+/* ===== Titel + metrics ===== */
 header{text-align:center;margin-top:1rem;margin-bottom:2rem;}
 h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
-.subtitle{color:var(--sub);margin-top:.5rem;}
+.subtitle{display:none;}         /* verwijderde tekst */
 .metrics{
   margin-top:1.2rem;font-size:.95rem;color:var(--sub);
   display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;
@@ -113,11 +111,15 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 .row:hover::after{animation:shine 1.8s ease;}
 @keyframes shine{from{left:-70%;}to{left:130%;}}
 
-/* Nummer 1 kroon */
+/* ===== Kroontje herpositioneerd ===== */
 .row.top1::before{
   content:"👑";
-  position:absolute;top:-18px;left:25%;
-  font-size:1.8rem;animation:crownFloat 3s ease-in-out infinite;
+  position:absolute;
+  top:-10px;          /* dichter boven avatar */
+  left:70px;          /* gecentreerd boven emoji */
+  font-size:1.6rem;
+  filter:drop-shadow(0 0 6px rgba(244,199,108,.8));
+  animation:crownFloat 3s ease-in-out infinite;
 }
 @keyframes crownFloat{
   0%,100%{transform:translateY(0);}
@@ -125,12 +127,10 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 }
 .row.top1{box-shadow:0 0 35px rgba(244,199,108,.5);border-color:rgba(244,199,108,.3);}
 
-/* Nummer 1 pulse ring */
+/* Pulse ring rond avatar */
 .row.top1 .emoji::after{
-  content:"";
-  position:absolute;inset:-6px;
-  border-radius:50%;
-  border:2px solid rgba(244,199,108,.35);
+  content:"";position:absolute;inset:-6px;
+  border-radius:50%;border:2px solid rgba(244,199,108,.35);
   animation:pulse 2s infinite;
 }
 @keyframes pulse{
@@ -182,7 +182,6 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 </head>
 <body>
 
-<!-- achtergrondorbs -->
 <div class="bg-orbs"><span></span><span></span><span></span></div>
 
 <nav>
@@ -193,9 +192,9 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 
 <header>
   <h1>🏆 Acquisitie Leaderboard</h1>
-  <p class="subtitle">Beweeg je muis – voel de gloed</p>
+  <!-- verwijderde subtitle -->
   <div class="metrics">
-    <div class="metric">Totaal punten <span id="totPoints">0</span></div>
+    <div class="metric">Totaal punten <span id="totPoints">0</span></div>
     <div class="metric">Spelers <span id="players">0</span></div>
     <div class="metric">Laatste update <span id="lastUp">–</span></div>
   </div>
@@ -204,13 +203,12 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 <div class="board" id="board"></div>
 
 <script>
-// ===== Ambient light volgt muis =====
+// zachtere muisgloed
 document.addEventListener('mousemove',e=>{
   document.body.style.setProperty('--mx',e.clientX+'px');
   document.body.style.setProperty('--my',e.clientY+'px');
 });
 
-// ===== tellerfunctie =====
 function countUp(el,target,dur=1500){
   let start=0;
   const step=Math.max(1,Math.ceil(target/(dur/20)));
@@ -221,7 +219,6 @@ function countUp(el,target,dur=1500){
   },20);
 }
 
-// ===== data laden =====
 async function loadData(){
   const board=document.getElementById('board');
   try{
@@ -230,9 +227,8 @@ async function loadData(){
     data.sort((a,b)=>b.score-a.score);
     const max=Math.max(...data.map(d=>d.score));
 
-    // hero metrics
     document.getElementById('players').textContent=data.length;
-    const total=data.reduce((sum,d)=>sum+d.score,0);
+    const total=data.reduce((s,d)=>s+d.score,0);
     countUp(document.getElementById('totPoints'),total);
     document.getElementById('lastUp').textContent=new Date().toLocaleString('nl-NL');
 
@@ -244,23 +240,21 @@ async function loadData(){
       if(i===1)row.classList.add('top2');
       if(i===2)row.classList.add('top3');
       row.style.animationDelay=`${i*0.12}s`;
-
       row.innerHTML=`
         <div class="rank">${i+1}</div>
         <div class="name"><span class="emoji">${p.icon||'⭐'}</span>${p.name}</div>
         <div class="bar"><div class="progress"></div></div>
         <div class="score" data-score="${p.score}">0</div>`;
       board.appendChild(row);
-
       const prog=row.querySelector('.progress');
-      const scEl=row.querySelector('.score');
+      const sc=row.querySelector('.score');
       requestAnimationFrame(()=>{
         prog.style.width=(p.score/max*100)+'%';
-        countUp(scEl,p.score);
+        countUp(sc,p.score);
       });
     });
   }catch(e){
-    board.innerHTML=`<p style="text-align:center;color:#fca5a5;">Fout bij laden van JSON: ${e.message}</p>`;
+    board.innerHTML=`<p style="text-align:center;color:#fca5a5;">Fout bij laden van JSON: ${e.message}</p>`;
   }
 }
 loadData();
