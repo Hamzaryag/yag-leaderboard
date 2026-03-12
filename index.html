@@ -56,13 +56,15 @@ nav a.active::after{
   position:fixed;inset:0;overflow:hidden;z-index:-1;
 }
 .bg-orbs span{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle,rgba(244,199,108,.18),transparent 70%);
-  animation:float 60s infinite linear;
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(244,199,108,.10),transparent 70%);
+  animation:float 70s infinite linear;
+  filter:blur(1px);
 }
-.bg-orbs span:nth-child(1){width:300px;height:300px;top:10%;left:10%;}
-.bg-orbs span:nth-child(2){width:400px;height:400px;bottom:10%;right:15%;animation-delay:10s;}
-.bg-orbs span:nth-child(3){width:250px;height:250px;top:50%;right:40%;animation-delay:20s;}
+.bg-orbs span:nth-child(1){width:220px;height:220px;top:15%;left:12%;animation-delay:0s;}
+.bg-orbs span:nth-child(2){width:260px;height:260px;bottom:15%;right:16%;animation-delay:10s;}
+.bg-orbs span:nth-child(3){width:200px;height:200px;top:55%;right:40%;animation-delay:20s;}
 @keyframes float{
   0%{transform:translateY(0) rotate(0deg);}
   50%{transform:translateY(-30px) rotate(180deg);}
@@ -72,7 +74,7 @@ nav a.active::after{
 /* ===== Titel + metrics ===== */
 header{text-align:center;margin-top:1rem;margin-bottom:2rem;}
 h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
-.subtitle{display:none;}         /* verwijderde tekst */
+.subtitle{display:none;} /* verwijderde tekst */
 .metrics{
   margin-top:1.2rem;font-size:.95rem;color:var(--sub);
   display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;
@@ -111,14 +113,14 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 .row:hover::after{animation:shine 1.8s ease;}
 @keyframes shine{from{left:-70%;}to{left:130%;}}
 
-/* ===== Kroontje herpositioneerd ===== */
+/* ===== Kroontje precies boven avatar ===== */
 .row.top1::before{
   content:"👑";
   position:absolute;
-  top:-10px;          /* dichter boven avatar */
-  left:70px;          /* gecentreerd boven emoji */
-  font-size:1.6rem;
-  filter:drop-shadow(0 0 6px rgba(244,199,108,.8));
+  top:-8px;
+  left:52px;
+  font-size:1.7rem;
+  filter:drop-shadow(0 0 6px rgba(244,199,108,.9));
   animation:crownFloat 3s ease-in-out infinite;
 }
 @keyframes crownFloat{
@@ -162,7 +164,7 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 
 /* kleurgradients per rang */
 .row.top1 .progress{background:linear-gradient(90deg,#facc15,#fde68a,#fbcf04);}
-.row.top2 .progress{background:linear-gradient(90deg,#d1d5db,#f9fafb);}
+.row.top2 .progress{background:linear-gradient(90deg,#9aa5b5,#ced3d9);}
 .row.top3 .progress{background:linear-gradient(90deg,#b45309,#facc15);}
 .progress{background:linear-gradient(90deg,#cbd5e1,#facc15);}
 
@@ -191,12 +193,11 @@ h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;}
 </nav>
 
 <header>
-  <h1>🏆 Acquisitie Leaderboard</h1>
-  <!-- verwijderde subtitle -->
+  <h1>🏆 Acquisitie Leaderboard</h1>
   <div class="metrics">
-    <div class="metric">Totaal punten <span id="totPoints">0</span></div>
-    <div class="metric">Spelers <span id="players">0</span></div>
-    <div class="metric">Laatste update <span id="lastUp">–</span></div>
+    <div class="metric">Totaal punten <span id="totPoints">0</span></div>
+    <div class="metric">Spelers <span id="players">0</span></div>
+    <div class="metric">Laatste update <span id="lastUp">–</span></div>
   </div>
 </header>
 
