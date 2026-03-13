@@ -141,16 +141,7 @@
       box-shadow:0 10px 24px rgba(244,199,108,.18);
     }
 
-    .overview{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns:1.65fr .95fr;
-      gap:16px;
-      align-items:stretch;
-    }
-
-    .overview-card,
-    .side-card{
+    .overview-card{
       position:relative;
       overflow:hidden;
       border-radius:26px;
@@ -159,31 +150,28 @@
         linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03)),
         rgba(255,255,255,.02);
       box-shadow:var(--shadow);
+      margin-top:18px;
+      padding:24px;
     }
 
-    .overview-card{
-      padding:24px 24px 22px;
-    }
-
-    .overview-card::before,
-    .side-card::before{
+    .overview-card::before{
       content:"";
       position:absolute;
       inset:auto -8% -30% auto;
-      width:240px;
-      height:240px;
+      width:260px;
+      height:260px;
       background:radial-gradient(circle, rgba(244,199,108,.18), transparent 65%);
       filter:blur(8px);
       pointer-events:none;
     }
 
-    .topline{
-      display:flex;
-      justify-content:space-between;
-      gap:1rem;
-      align-items:flex-start;
-      flex-wrap:wrap;
-      margin-bottom:18px;
+    .overview-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.15fr .95fr;
+      gap:22px;
+      align-items:start;
     }
 
     .eyebrow{
@@ -199,7 +187,7 @@
     }
 
     h1{
-      font-size:clamp(1.5rem, 3.2vw, 2.2rem);
+      font-size:clamp(1.5rem, 3vw, 2.15rem);
       line-height:1.03;
       letter-spacing:-.04em;
       margin-bottom:8px;
@@ -207,41 +195,23 @@
 
     .overview-sub{
       color:var(--muted);
-      max-width:680px;
+      max-width:620px;
       line-height:1.55;
       font-size:.98rem;
     }
 
-    .updated{
-      display:inline-flex;
-      align-items:center;
-      gap:.55rem;
-      padding:.78rem 1rem;
-      border-radius:14px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.06);
-      color:var(--muted);
-      font-weight:600;
-      font-size:.9rem;
-      white-space:nowrap;
-    }
-
-    .updated strong{
-      color:var(--text);
-    }
-
-    .hero-summary{
+    .hero-meta{
       display:flex;
       flex-wrap:wrap;
       gap:12px;
-      margin-top:4px;
+      margin-top:18px;
     }
 
     .summary-pill{
       display:inline-flex;
       align-items:center;
       gap:.55rem;
-      padding:.9rem 1rem;
+      padding:.85rem 1rem;
       border-radius:16px;
       border:1px solid rgba(255,255,255,.06);
       background:rgba(255,255,255,.035);
@@ -264,23 +234,18 @@
       color:var(--gold);
     }
 
-    .side-card{
-      padding:22px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-
     .side-title{
       font-size:1rem;
       font-weight:800;
       letter-spacing:-.02em;
+      margin-bottom:4px;
     }
 
     .side-sub{
       color:var(--muted);
       font-size:.9rem;
       line-height:1.5;
+      margin-bottom:14px;
     }
 
     .top-list{
@@ -587,7 +552,7 @@
     }
 
     @media (max-width: 1080px){
-      .overview{
+      .overview-grid{
         grid-template-columns:1fr;
       }
     }
@@ -633,17 +598,9 @@
         font-size:.9rem;
       }
 
-      .overview-card,
-      .side-card{
-        border-radius:22px;
-      }
-
       .overview-card{
+        border-radius:22px;
         padding:20px;
-      }
-
-      .side-card{
-        padding:18px;
       }
 
       .row{
@@ -654,13 +611,9 @@
         white-space:normal;
       }
 
-      .updated{
-        width:100%;
-        justify-content:flex-start;
-      }
-
-      .hero-summary{
+      .hero-meta{
         flex-direction:column;
+        align-items:flex-start;
       }
     }
   </style>
@@ -684,50 +637,42 @@
   <main class="shell">
     <div class="container">
 
-      <section class="overview">
-        <div class="overview-card">
-          <div class="topline">
-            <div>
-              <div class="eyebrow">Acquisitie performance</div>
-              <h1>Acquisitie overzicht</h1>
-              <p class="overview-sub">
-                Live inzicht in de actuele ranking en koplopers binnen het acquisitieteam.
-              </p>
-            </div>
+      <section class="overview-card">
+        <div class="overview-grid">
+          <div>
+            <div class="eyebrow">Acquisitie performance</div>
+            <h1>Acquisitie overzicht</h1>
+            <p class="overview-sub">
+              Live inzicht in de actuele ranking en koplopers binnen het acquisitieteam.
+            </p>
 
-            <div class="updated">
-              Laatste update <strong id="lastUp">–</strong>
+            <div class="hero-meta">
+              <div class="summary-pill">
+                Laatste update <strong id="lastUp">–</strong>
+              </div>
+              <div class="summary-pill gold">
+                Hoogste score <strong id="maxScore">0</strong>
+              </div>
             </div>
           </div>
 
-          <div class="hero-summary">
-            <div class="summary-pill gold">
-              Hoogste score <strong id="maxScore">0</strong>
-            </div>
-            <div class="summary-pill">
-              Koploper(s) <strong id="leaderNames">–</strong>
-            </div>
-          </div>
-        </div>
-
-        <aside class="side-card">
           <div>
             <div class="side-title">Top van dit moment</div>
             <div class="side-sub">
               Overzicht van de sterkste performers op basis van actuele score.
             </div>
-          </div>
 
-          <div class="top-list" id="topList">
-            <div class="top-item">
-              <div class="top-left">
-                <div class="mini-rank">1</div>
-                <div class="mini-name">–</div>
+            <div class="top-list" id="topList">
+              <div class="top-item">
+                <div class="top-left">
+                  <div class="mini-rank">1</div>
+                  <div class="mini-name">–</div>
+                </div>
+                <div class="mini-score">0</div>
               </div>
-              <div class="mini-score">0</div>
             </div>
           </div>
-        </aside>
+        </div>
       </section>
 
       <section class="board-section">
@@ -853,7 +798,6 @@
         document.getElementById('lastUp').textContent = formatDateTime();
         document.getElementById('maxScore').textContent = max;
         document.getElementById('maxScoreChip').textContent = `Hoogste score: ${max}`;
-        document.getElementById('leaderNames').textContent = leaders.map(p => p.name).join(', ');
 
         createTopList(data);
 
