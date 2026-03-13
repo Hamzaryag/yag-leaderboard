@@ -145,16 +145,7 @@
       box-shadow:0 10px 24px rgba(244,199,108,.18);
     }
 
-    .overview{
-      display:grid;
-      grid-template-columns:1.45fr 1fr;
-      gap:16px;
-      margin-top:18px;
-      align-items:stretch;
-    }
-
-    .overview-card,
-    .summary-card{
+    .overview-card{
       position:relative;
       overflow:hidden;
       border-radius:26px;
@@ -163,35 +154,28 @@
         linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03)),
         rgba(255,255,255,.02);
       box-shadow:var(--shadow);
-    }
-
-    .overview-card{
+      margin-top:18px;
       padding:24px;
     }
 
-    .summary-card{
-      padding:22px;
-    }
-
-    .overview-card::before,
-    .summary-card::before{
+    .overview-card::before{
       content:"";
       position:absolute;
       inset:auto -8% -30% auto;
-      width:240px;
-      height:240px;
+      width:260px;
+      height:260px;
       background:radial-gradient(circle, rgba(244,199,108,.18), transparent 65%);
       filter:blur(8px);
       pointer-events:none;
     }
 
-    .topline{
-      display:flex;
-      justify-content:space-between;
-      gap:1rem;
-      align-items:flex-start;
-      flex-wrap:wrap;
-      margin-bottom:18px;
+    .overview-grid{
+      display:grid;
+      grid-template-columns:1.15fr .95fr;
+      gap:22px;
+      align-items:start;
+      position:relative;
+      z-index:1;
     }
 
     .eyebrow{
@@ -210,28 +194,34 @@
       font-size:clamp(1.55rem, 3.2vw, 2.25rem);
       line-height:1.03;
       letter-spacing:-.04em;
-      margin-bottom:8px;
+      margin-bottom:10px;
     }
 
     .overview-sub{
       color:var(--muted);
-      max-width:680px;
+      max-width:640px;
       line-height:1.55;
       font-size:.98rem;
+    }
+
+    .summary-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
     }
 
     .summary-title{
       font-size:1rem;
       font-weight:800;
       letter-spacing:-.02em;
-      margin-bottom:6px;
+      margin-bottom:2px;
     }
 
     .summary-sub{
       color:var(--muted);
       font-size:.9rem;
       line-height:1.5;
-      margin-bottom:14px;
+      margin-bottom:2px;
     }
 
     .summary-list{
@@ -263,10 +253,9 @@
       text-align:right;
     }
 
-    .summary-value.blue{ color:#bae6fd; }
-    .summary-value.gold{ color:var(--gold); }
-    .summary-value.green{ color:#86efac; }
-    .summary-value.yellow{ color:#fde68a; }
+    .summary-value.blue{
+      color:#bae6fd;
+    }
 
     .warning-list{
       display:flex;
@@ -694,7 +683,7 @@
     }
 
     @media (max-width: 1080px){
-      .overview{
+      .overview-grid{
         grid-template-columns:1fr;
       }
     }
@@ -723,17 +712,9 @@
         font-size:.9rem;
       }
 
-      .overview-card,
-      .summary-card{
-        border-radius:22px;
-      }
-
       .overview-card{
+        border-radius:22px;
         padding:20px;
-      }
-
-      .summary-card{
-        padding:18px;
       }
 
       .card{
@@ -770,44 +751,42 @@
   <main class="shell">
     <div class="container">
 
-      <section class="overview">
-        <div class="overview-card">
-          <div class="topline">
+      <section class="overview-card">
+        <div class="overview-grid">
+          <div>
+            <div class="eyebrow">Team status</div>
+            <h1>Acquisitie status</h1>
+            <p class="overview-sub">
+              Live overzicht per persoon, inclusief punten, target, streak, sanctionering en eventuele freeze.
+            </p>
+          </div>
+
+          <div class="summary-wrap">
+            <div class="summary-title">Samenvatting</div>
+            <div class="summary-sub">
+              Direct inzicht in freeze en waarschuwingen binnen het team.
+            </div>
+
+            <div class="summary-list">
+              <div class="summary-item">
+                <div class="summary-label">Laatste update</div>
+                <div class="summary-value" id="subtitle">–</div>
+              </div>
+
+              <div class="summary-item">
+                <div class="summary-label">Freeze status</div>
+                <div class="summary-value blue" id="freezeSummary">Geen</div>
+              </div>
+            </div>
+
             <div>
-              <div class="eyebrow">Team status</div>
-              <h1>Acquisitie status</h1>
-              <p class="overview-sub">
-                Live overzicht per persoon, inclusief punten, target, streak, sanctionering en eventuele freeze.
-              </p>
+              <div class="summary-title" style="font-size:.95rem; margin-bottom:10px;">Mensen met waarschuwing</div>
+              <div class="warning-list" id="warningList">
+                <div class="warning-empty">Geen waarschuwingen actief</div>
+              </div>
             </div>
           </div>
         </div>
-
-        <aside class="summary-card">
-          <div class="summary-title">Samenvatting</div>
-          <div class="summary-sub">
-            Direct inzicht in freeze en waarschuwingen binnen het team.
-          </div>
-
-          <div class="summary-list">
-            <div class="summary-item">
-              <div class="summary-label">Laatste update</div>
-              <div class="summary-value" id="subtitle">–</div>
-            </div>
-
-            <div class="summary-item">
-              <div class="summary-label">Freeze status</div>
-              <div class="summary-value blue" id="freezeSummary">Geen</div>
-            </div>
-          </div>
-
-          <div style="margin-top:14px;">
-            <div class="summary-title" style="font-size:.95rem; margin-bottom:10px;">Mensen met waarschuwing</div>
-            <div class="warning-list" id="warningList">
-              <div class="warning-empty">Geen waarschuwingen actief</div>
-            </div>
-          </div>
-        </aside>
       </section>
 
       <section>
