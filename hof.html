@@ -1,249 +1,828 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="robots" content="noindex, nofollow">
-<title>Topper vd maand</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Topper van de maand | Young Advisory Group</title>
 
-<style>
-body{
-margin:0;
-font-family: Arial, sans-serif;
-background:#0f172a;
-color:#fff;
-padding:34px 16px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-.wrap{max-width:900px;margin:0 auto;}
+  <style>
+    :root{
+      --bg:#07101d;
+      --panel:rgba(255,255,255,.05);
+      --panel-soft:rgba(255,255,255,.035);
+      --border:rgba(255,255,255,.08);
+      --border-strong:rgba(255,255,255,.14);
+      --text:#f8fafc;
+      --muted:#94a3b8;
+      --gold:#f4c76c;
+      --gold-2:#facc15;
+      --gold-soft:rgba(244,199,108,.12);
+      --blue:#38bdf8;
+      --radius:22px;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --container:1120px;
+    }
 
-.nav{
-display:flex;
-gap:12px;
-margin-bottom:25px;
-}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-.nav a{
-color:white;
-text-decoration:none;
-padding:10px 14px;
-background:#1e293b;
-border-radius:10px;
-font-weight:bold;
-}
+    html{
+      scroll-behavior:smooth;
+    }
 
-.nav a:hover{
-background:#334155;
-}
+    body{
+      font-family:'Inter',sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(244,199,108,.11), transparent 24%),
+        linear-gradient(180deg, #091221 0%, #050c16 100%);
+      overflow-x:hidden;
+    }
 
-h1{
-margin:0 0 18px 0;
-text-align:center;
-font-size:34px;
-}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(
+          680px at var(--mx,50%) var(--my,15%),
+          rgba(244,199,108,.055),
+          transparent 60%
+        );
+      opacity:.9;
+    }
 
-.board{
-background:#111c33;
-border:1px solid rgba(255,255,255,.08);
-border-radius:22px;
-overflow:hidden;
-box-shadow:0 18px 55px rgba(0,0,0,.35);
-}
+    .container{
+      width:min(var(--container), calc(100% - 2rem));
+      margin:0 auto;
+    }
 
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:14px 16px;
-border-bottom:1px solid rgba(255,255,255,.07);
-}
+    .shell{
+      padding:22px 0 48px;
+    }
 
-.row:last-child{
-border-bottom:none;
-}
+    .nav-wrap{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(14px);
+      background:rgba(5,12,22,.62);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
 
-.month{
-font-weight:700;
-color:#cbd5e1;
-}
+    nav{
+      width:min(var(--container), calc(100% - 2rem));
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 0;
+      gap:1rem;
+    }
 
-.name{
-font-weight:800;
-font-size:15px;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
 
-.score{
-font-weight:900;
-}
+    .brand-badge{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, rgba(244,199,108,.22), rgba(244,199,108,.08));
+      border:1px solid rgba(244,199,108,.20);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+    }
 
-.current{
-text-align:center;
-margin-bottom:24px;
-padding:18px;
-background:#111c33;
-border-radius:18px;
-border:1px solid rgba(255,255,255,.08);
-}
+    .nav-links{
+      display:flex;
+      gap:.5rem;
+      flex-wrap:wrap;
+    }
 
-.icon{
-font-size:40px;
-margin-bottom:6px;
-}
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      font-size:.95rem;
+      padding:.82rem 1rem;
+      border-radius:12px;
+      transition:.25s ease;
+      border:1px solid transparent;
+    }
 
-#confetti{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:9999;
-}
-</style>
+    .nav-links a:hover{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border-color:rgba(255,255,255,.06);
+    }
+
+    .nav-links a.active{
+      color:#111827;
+      background:linear-gradient(135deg, #f4c76c, #f8dea3);
+      box-shadow:0 10px 24px rgba(244,199,108,.18);
+    }
+
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      margin-top:18px;
+      border-radius:28px;
+      border:1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03)),
+        rgba(255,255,255,.02);
+      box-shadow:var(--shadow);
+      padding:26px;
+    }
+
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset:auto -8% -26% auto;
+      width:300px;
+      height:300px;
+      background:radial-gradient(circle, rgba(244,199,108,.18), transparent 65%);
+      filter:blur(8px);
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.15fr .95fr;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      color:var(--gold);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:.76rem;
+      font-weight:800;
+      margin-bottom:10px;
+    }
+
+    h1{
+      font-size:clamp(1.8rem, 3.6vw, 2.7rem);
+      line-height:1.02;
+      letter-spacing:-.04em;
+      margin-bottom:10px;
+    }
+
+    .hero-sub{
+      color:var(--muted);
+      max-width:640px;
+      line-height:1.55;
+      font-size:.98rem;
+    }
+
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      padding:.85rem 1rem;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.035);
+      color:var(--muted);
+      font-size:.92rem;
+      font-weight:700;
+    }
+
+    .pill strong{
+      color:var(--text);
+    }
+
+    .pill.gold{
+      border-color:rgba(244,199,108,.22);
+      background:rgba(244,199,108,.08);
+    }
+
+    .pill.gold strong{
+      color:var(--gold);
+    }
+
+    .winner-card{
+      position:relative;
+      border-radius:24px;
+      border:1px solid rgba(244,199,108,.22);
+      background:
+        linear-gradient(180deg, rgba(244,199,108,.12), rgba(255,255,255,.04)),
+        rgba(255,255,255,.03);
+      box-shadow:
+        0 18px 40px rgba(244,199,108,.08),
+        0 12px 24px rgba(0,0,0,.2);
+      padding:22px;
+      overflow:hidden;
+      min-height:100%;
+    }
+
+    .winner-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,.10), transparent 20%),
+        linear-gradient(115deg, rgba(255,255,255,.10) 0%, transparent 32%);
+      pointer-events:none;
+    }
+
+    .winner-label{
+      font-size:.8rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:12px;
+    }
+
+    .winner-top{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:18px;
+      position:relative;
+      z-index:1;
+    }
+
+    .winner-icon{
+      width:76px;
+      height:76px;
+      border-radius:22px;
+      display:grid;
+      place-items:center;
+      font-size:2.2rem;
+      background:rgba(244,199,108,.14);
+      border:1px solid rgba(244,199,108,.26);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+      flex-shrink:0;
+    }
+
+    .winner-name{
+      font-size:1.55rem;
+      font-weight:800;
+      letter-spacing:-.03em;
+      line-height:1.05;
+    }
+
+    .winner-sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .winner-stats{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+      position:relative;
+      z-index:1;
+    }
+
+    .winner-stat{
+      border-radius:18px;
+      padding:14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .winner-stat-label{
+      color:var(--muted);
+      font-size:.78rem;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .winner-stat-value{
+      color:var(--text);
+      font-size:1.2rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .winner-stat-value.gold{
+      color:var(--gold);
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:1rem;
+      flex-wrap:wrap;
+      margin:18px 0 14px;
+    }
+
+    .section-title{
+      font-size:1.08rem;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .section-sub{
+      color:var(--muted);
+      font-size:.92rem;
+      margin-top:4px;
+    }
+
+    .section-chip{
+      padding:.72rem .95rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.035);
+      color:var(--muted);
+      font-size:.84rem;
+      font-weight:700;
+    }
+
+    .history-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:14px;
+    }
+
+    .history-card{
+      position:relative;
+      border-radius:22px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.035));
+      padding:18px;
+      box-shadow:0 10px 25px rgba(0,0,0,.18);
+      transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+      overflow:hidden;
+    }
+
+    .history-card:hover{
+      transform:translateY(-2px);
+      border-color:var(--border-strong);
+      box-shadow:0 18px 36px rgba(0,0,0,.24);
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.045));
+    }
+
+    .history-card.current{
+      border-color:rgba(244,199,108,.22);
+      background:
+        linear-gradient(180deg, rgba(244,199,108,.10), rgba(255,255,255,.04)),
+        rgba(255,255,255,.03);
+    }
+
+    .history-month{
+      color:var(--muted);
+      font-size:.82rem;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .history-main{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .history-icon{
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.06);
+      font-size:1.35rem;
+      flex-shrink:0;
+    }
+
+    .history-card.current .history-icon{
+      background:rgba(244,199,108,.14);
+      border-color:rgba(244,199,108,.24);
+    }
+
+    .history-name{
+      font-weight:800;
+      font-size:1rem;
+      line-height:1.15;
+    }
+
+    .history-tag{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:.82rem;
+    }
+
+    .history-score{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      padding:.7rem .85rem;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.035);
+      color:var(--muted);
+      font-size:.86rem;
+      font-weight:700;
+    }
+
+    .history-score strong{
+      color:var(--text);
+    }
+
+    .empty-state,
+    .error-state{
+      text-align:center;
+      padding:30px 22px;
+      border-radius:22px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+
+    .error-state{
+      color:#fecaca;
+      border-color:rgba(248,113,113,.18);
+      background:rgba(248,113,113,.05);
+    }
+
+    footer{
+      margin-top:24px;
+      color:var(--muted);
+      font-size:.88rem;
+      text-align:center;
+      padding:12px 0 8px;
+    }
+
+    #confetti{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:9999;
+    }
+
+    @media (max-width: 1080px){
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      .shell{
+        padding-top:14px;
+      }
+
+      nav{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .nav-links{
+        width:100%;
+        justify-content:space-between;
+      }
+
+      .nav-links a{
+        flex:1;
+        text-align:center;
+        padding:.8rem .7rem;
+        font-size:.9rem;
+      }
+
+      .hero-card{
+        padding:20px;
+        border-radius:22px;
+      }
+
+      .winner-card{
+        padding:18px;
+      }
+
+      .winner-top{
+        align-items:flex-start;
+      }
+
+      .winner-name{
+        font-size:1.3rem;
+      }
+
+      .winner-stats{
+        grid-template-columns:1fr;
+      }
+
+      .meta-row{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <canvas id="confetti"></canvas>
 
-<canvas id="confetti"></canvas>
+  <div class="nav-wrap">
+    <nav>
+      <div class="brand">
+        <div class="brand-badge">🏆</div>
+        <div>Young Advisory Group</div>
+      </div>
 
-<div class="wrap">
+      <div class="nav-links">
+        <a href="./index.html">Leaderboard</a>
+        <a href="./status.html">Status</a>
+        <a href="./hof.html" class="active">Topper van de maand</a>
+      </div>
+    </nav>
+  </div>
 
-<div class="nav">
-<a href="./index.html">Leaderboard</a>
-<a href="./status.html">Status</a>
-<a href="./hof.html">Topper vd maand</a>
-</div>
+  <main class="shell">
+    <div class="container">
+      <section class="hero-card">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Hall of fame</div>
+            <h1>Topper van de maand</h1>
+            <p class="hero-sub">
+              Overzicht van de maandelijkse toppers binnen het acquisitieteam, inclusief de huidige titelhouder en eerdere winnaars.
+            </p>
 
-<h1>🏆 Topper van de maand</h1>
+            <div class="meta-row">
+              <div class="pill">Laatste update <strong id="lastUp">–</strong></div>
+              <div class="pill gold">Totaal winnaars <strong id="winnerCount">0</strong></div>
+            </div>
+          </div>
 
-<div class="current" id="currentWinner"></div>
+          <div class="winner-card" id="currentWinnerCard">
+            <div class="winner-label">Huidige titelhouder</div>
+            <div class="winner-top">
+              <div class="winner-icon">⭐</div>
+              <div>
+                <div class="winner-name">Nog geen winnaar</div>
+                <div class="winner-sub">Zodra er een maandwinnaar is gekozen verschijnt die hier.</div>
+              </div>
+            </div>
 
-<div class="board" id="history"></div>
+            <div class="winner-stats">
+              <div class="winner-stat">
+                <div class="winner-stat-label">Maand</div>
+                <div class="winner-stat-value">–</div>
+              </div>
+              <div class="winner-stat">
+                <div class="winner-stat-label">Score</div>
+                <div class="winner-stat-value gold">0</div>
+              </div>
+              <div class="winner-stat">
+                <div class="winner-stat-label">Status</div>
+                <div class="winner-stat-value">Open</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-</div>
+      <section>
+        <div class="section-head">
+          <div>
+            <div class="section-title">Eerdere winnaars</div>
+            <div class="section-sub">Historisch overzicht van de maandelijkse toppers</div>
+          </div>
 
-<script>
+          <div class="section-chip">Hall of Fame</div>
+        </div>
 
-function startConfetti(){
-const canvas = document.getElementById("confetti");
-const ctx = canvas.getContext("2d");
+        <div class="history-grid" id="history"></div>
+      </section>
 
-function resize(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
+      <footer>
+        Young Advisory Group • Topper van de maand
+      </footer>
+    </div>
+  </main>
 
-const colors = ["#f59e0b","#ef4444","#22c55e","#3b82f6","#a855f7","#ec4899","#facc15","#ffffff"];
-const pieces = [];
-const count = 220;
+  <script>
+    document.addEventListener('mousemove', (e) => {
+      document.body.style.setProperty('--mx', e.clientX + 'px');
+      document.body.style.setProperty('--my', e.clientY + 'px');
+    });
 
-for(let i=0;i<count;i++){
-pieces.push({
-x: Math.random() * canvas.width,
-y: Math.random() * canvas.height - canvas.height,
-w: 8 + Math.random() * 10,
-h: 10 + Math.random() * 14,
-color: colors[Math.floor(Math.random() * colors.length)],
-speed: 2 + Math.random() * 5,
-drift: -2 + Math.random() * 4,
-rotation: Math.random() * 360,
-rotationSpeed: -8 + Math.random() * 16
-});
-}
+    function formatDateTime() {
+      return new Date().toLocaleString('nl-NL', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
 
-let start = Date.now();
-let duration = 6000;
+    function startConfetti() {
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
 
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
 
-pieces.forEach(p => {
-p.y += p.speed;
-p.x += p.drift;
-p.rotation += p.rotationSpeed;
+      resize();
+      window.addEventListener("resize", resize);
 
-ctx.save();
-ctx.translate(p.x, p.y);
-ctx.rotate(p.rotation * Math.PI / 180);
-ctx.fillStyle = p.color;
-ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-ctx.restore();
+      const colors = ["#f4c76c","#facc15","#ffffff","#38bdf8"];
+      const pieces = [];
+      const count = 120;
 
-if(p.y > canvas.height + 30){
-p.y = -20;
-p.x = Math.random() * canvas.width;
-}
-});
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          w: 6 + Math.random() * 8,
+          h: 8 + Math.random() * 12,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 1.8 + Math.random() * 3.2,
+          drift: -1.5 + Math.random() * 3,
+          rotation: Math.random() * 360,
+          rotationSpeed: -6 + Math.random() * 12
+        });
+      }
 
-if(Date.now() - start < duration){
-requestAnimationFrame(draw);
-}else{
-ctx.clearRect(0,0,canvas.width,canvas.height);
-}
-}
+      const start = Date.now();
+      const duration = 4200;
 
-draw();
-}
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-async function load(){
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.x += p.drift;
+          p.rotation += p.rotationSpeed;
 
-try{
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation * Math.PI / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
 
-let res = await fetch("./hof.json",{cache:"no-store"});
-let data = await res.json();
+          if (p.y > canvas.height + 30) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
+          }
+        });
 
-let winners = data.winners || [];
+        if (Date.now() - start < duration) {
+          requestAnimationFrame(draw);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
 
-let current = winners[0];
+      draw();
+    }
 
-let currentBox = document.getElementById("currentWinner");
+    function renderCurrentWinner(current) {
+      const card = document.getElementById("currentWinnerCard");
 
-if(current){
+      if (!current) {
+        card.innerHTML = `
+          <div class="winner-label">Huidige titelhouder</div>
+          <div class="winner-top">
+            <div class="winner-icon">⭐</div>
+            <div>
+              <div class="winner-name">Nog geen winnaar</div>
+              <div class="winner-sub">Zodra er een maandwinnaar is gekozen verschijnt die hier.</div>
+            </div>
+          </div>
 
-currentBox.innerHTML = `
-<div class="icon">${current.icon || "⭐"}</div>
-<div class="name">${current.name || "Nog geen winnaar"}</div>
-<div class="score">${current.score || 0} punten</div>
-`;
+          <div class="winner-stats">
+            <div class="winner-stat">
+              <div class="winner-stat-label">Maand</div>
+              <div class="winner-stat-value">–</div>
+            </div>
+            <div class="winner-stat">
+              <div class="winner-stat-label">Score</div>
+              <div class="winner-stat-value gold">0</div>
+            </div>
+            <div class="winner-stat">
+              <div class="winner-stat-label">Status</div>
+              <div class="winner-stat-value">Open</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
 
-}else{
+      card.innerHTML = `
+        <div class="winner-label">Huidige titelhouder</div>
+        <div class="winner-top">
+          <div class="winner-icon">${current.icon || "⭐"}</div>
+          <div>
+            <div class="winner-name">${current.name || "Nog geen winnaar"}</div>
+            <div class="winner-sub">Huidige maandwinnaar binnen het acquisitieteam.</div>
+          </div>
+        </div>
 
-currentBox.innerHTML = "Nog geen winnaar";
+        <div class="winner-stats">
+          <div class="winner-stat">
+            <div class="winner-stat-label">Maand</div>
+            <div class="winner-stat-value">${current.month || "–"}</div>
+          </div>
+          <div class="winner-stat">
+            <div class="winner-stat-label">Score</div>
+            <div class="winner-stat-value gold">${current.score || 0}</div>
+          </div>
+          <div class="winner-stat">
+            <div class="winner-stat-label">Status</div>
+            <div class="winner-stat-value">Titelhouder</div>
+          </div>
+        </div>
+      `;
+    }
 
-}
+    function renderHistory(winners) {
+      const history = document.getElementById("history");
 
-let history = document.getElementById("history");
+      if (!winners.length) {
+        history.innerHTML = `<div class="empty-state">Nog geen winnaars beschikbaar.</div>`;
+        return;
+      }
 
-winners.forEach(w=>{
+      history.innerHTML = winners.map((winner, index) => `
+        <article class="history-card ${index === 0 ? 'current' : ''}">
+          <div class="history-month">${winner.month || "–"}</div>
 
-let row = document.createElement("div");
-row.className="row";
+          <div class="history-main">
+            <div class="history-icon">${winner.icon || "⭐"}</div>
+            <div>
+              <div class="history-name">${winner.name || "Onbekend"}</div>
+              <div class="history-tag">${index === 0 ? 'Huidige maandwinnaar' : 'Eerdere titelhouder'}</div>
+            </div>
+          </div>
 
-row.innerHTML = `
-<div class="month">${w.month}</div>
-<div class="name">${w.icon || "⭐"} ${w.name || ""}</div>
-<div class="score">${w.score || 0}</div>
-`;
+          <div class="history-score">
+            Score <strong>${winner.score || 0}</strong>
+          </div>
+        </article>
+      `).join('');
+    }
 
-history.appendChild(row);
+    async function load() {
+      try {
+        const res = await fetch("./hof.json", { cache: "no-store" });
 
-});
+        if (!res.ok) {
+          throw new Error("hof.json kon niet worden geladen");
+        }
 
-startConfetti();
+        const data = await res.json();
+        const winners = Array.isArray(data.winners) ? data.winners : [];
+        const current = winners[0] || null;
 
-}catch(e){
+        document.getElementById("lastUp").textContent = formatDateTime();
+        document.getElementById("winnerCount").textContent = winners.length;
 
-document.getElementById("currentWinner").innerText="hof.json niet gevonden";
+        renderCurrentWinner(current);
+        renderHistory(winners);
 
-}
+        if (current) {
+          startConfetti();
+        }
+      } catch (e) {
+        document.getElementById("currentWinnerCard").innerHTML = `
+          <div class="error-state">Fout bij laden: ${e.message}</div>
+        `;
+        document.getElementById("history").innerHTML = "";
+      }
+    }
 
-}
-
-load();
-
-</script>
-
+    load();
+  </script>
 </body>
 </html>
