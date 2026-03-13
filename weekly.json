@@ -1,21 +1,21 @@
 {
- "weekNorm":3,
+ "weekNorm":10,
  "weeks":[
   {
    "week":"2026-W10",
    "scores":{
-    "Floor Staal":2,
-    "Daan Hogervorst":3,
+    "Floor Staal":0,
+    "Daan Hogervorst":0,
     "Lucas van Hengel":0,
-    "Hamza Rida":3,
-    "Philippe Smit":4,
-    "Thijs Thierry":3,
+    "Hamza Rida":0,
+    "Philippe Smit":0,
+    "Thijs Thierry":0,
     "Minke Groenendijk":0,
     "Puck Goossens":0,
-    "Eva van Ieperen":4,
-    "Joost Tieleman":3,
-    "Kaat Wientjen":3,
-    "Olivier Newton":3
+    "Eva van Ieperen":0,
+    "Joost Tieleman":0,
+    "Kaat Wientjen":0,
+    "Olivier Newton":0
    }
   }
  ],
