@@ -74,7 +74,6 @@
       padding:22px 0 48px;
     }
 
-    /* NAV */
     .nav-wrap{
       position:sticky;
       top:0;
@@ -142,7 +141,6 @@
       box-shadow:0 10px 24px rgba(244,199,108,.18);
     }
 
-    /* TOP OVERVIEW */
     .overview{
       margin-top:18px;
       display:grid;
@@ -341,7 +339,6 @@
       color:var(--text);
     }
 
-    /* BOARD */
     .board-section{
       margin-top:18px;
     }
@@ -708,10 +705,7 @@
               Hoogste score <strong id="maxScore">0</strong>
             </div>
             <div class="summary-pill">
-              Gedeelde eerste plek <strong id="sharedLead">Nee</strong>
-            </div>
-            <div class="summary-pill">
-              Koplopers <strong id="leaderNames">–</strong>
+              Koploper(s) <strong id="leaderNames">–</strong>
             </div>
           </div>
         </div>
@@ -859,7 +853,6 @@
         document.getElementById('lastUp').textContent = formatDateTime();
         document.getElementById('maxScore').textContent = max;
         document.getElementById('maxScoreChip').textContent = `Hoogste score: ${max}`;
-        document.getElementById('sharedLead').textContent = leadersCount > 1 ? 'Ja' : 'Nee';
         document.getElementById('leaderNames').textContent = leaders.map(p => p.name).join(', ');
 
         createTopList(data);
