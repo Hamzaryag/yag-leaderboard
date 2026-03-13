@@ -1,8 +1,85 @@
 [
   {
+    "name": "Floor Staal",
+    "icon": "🦊",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Daan Hogervorst",
+    "icon": "🦅",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Lucas van Hengel",
+    "icon": "🐺",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
     "name": "Hamza Rida",
     "icon": "🦁",
-    "points": 10,
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Philippe Smit",
+    "icon": "🐼",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Thijs Thierry",
+    "icon": "🐯",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Minke Groenendijk",
+    "icon": "🐨",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Puck Goossens",
+    "icon": "🐧",
+    "points": 0,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -13,23 +90,45 @@
   {
     "name": "Eva van Ieperen",
     "icon": "🐬",
-    "points": 6,
+    "points": 0,
     "target": 10,
-    "status": "Waarschuwing",
-    "streak": 1,
-    "sanction": "Waarschuwing",
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
     "freeze": false,
-    "next_target": 19
+    "next_target": 10
   },
   {
-    "name": "Lucas van Hengel",
-    "icon": "🐺",
+    "name": "Joost Tieleman",
+    "icon": "🦏",
     "points": 0,
-    "target": 0,
-    "status": "Freeze",
-    "streak": 1,
-    "sanction": "Waarschuwing loopt door",
-    "freeze": true,
-    "next_target": 19
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Kaat Wientjen",
+    "icon": "🦋",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
+  },
+  {
+    "name": "Olivier Newton",
+    "icon": "🐙",
+    "points": 0,
+    "target": 10,
+    "status": "Groen",
+    "streak": 0,
+    "sanction": "Geen sanctie",
+    "freeze": false,
+    "next_target": 10
   }
 ]
