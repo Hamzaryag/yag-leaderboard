@@ -27,6 +27,8 @@
       --yellow:#facc15;
       --orange:#fb923c;
       --red:#ef4444;
+      --ice:#bfe3ff;
+      --ice-soft:rgba(191,227,255,.18);
       --radius:20px;
       --shadow:0 20px 60px rgba(0,0,0,.35);
       --container:1120px;
@@ -76,7 +78,6 @@
       padding:22px 0 48px;
     }
 
-    /* NAV */
     .nav-wrap{
       position:sticky;
       top:0;
@@ -144,7 +145,6 @@
       box-shadow:0 10px 24px rgba(244,199,108,.18);
     }
 
-    /* OVERVIEW */
     .overview{
       display:grid;
       grid-template-columns:1.45fr 1fr;
@@ -220,57 +220,6 @@
       font-size:.98rem;
     }
 
-    .updated{
-      display:inline-flex;
-      align-items:center;
-      gap:.55rem;
-      padding:.78rem 1rem;
-      border-radius:14px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.06);
-      color:var(--muted);
-      font-weight:600;
-      font-size:.9rem;
-      white-space:nowrap;
-    }
-
-    .updated strong{
-      color:var(--text);
-    }
-
-    .hero-pills{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:6px;
-    }
-
-    .hero-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:.55rem;
-      padding:.92rem 1rem;
-      border-radius:16px;
-      background:rgba(255,255,255,.035);
-      border:1px solid rgba(255,255,255,.06);
-      color:var(--muted);
-      font-size:.92rem;
-      font-weight:700;
-    }
-
-    .hero-pill strong{
-      color:var(--text);
-    }
-
-    .hero-pill.gold{
-      background:rgba(244,199,108,.08);
-      border-color:rgba(244,199,108,.22);
-    }
-
-    .hero-pill.gold strong{
-      color:var(--gold);
-    }
-
     .summary-title{
       font-size:1rem;
       font-weight:800;
@@ -311,13 +260,57 @@
     .summary-value{
       font-weight:800;
       color:var(--text);
+      text-align:right;
     }
 
     .summary-value.blue{ color:#bae6fd; }
     .summary-value.gold{ color:var(--gold); }
     .summary-value.green{ color:#86efac; }
+    .summary-value.yellow{ color:#fde68a; }
 
-    /* STATUS GRID */
+    .warning-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:2px;
+    }
+
+    .warning-person{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:11px 13px;
+      border-radius:14px;
+      border:1px solid rgba(250,204,21,.14);
+      background:rgba(250,204,21,.08);
+    }
+
+    .warning-name{
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .warning-badge{
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:.75rem;
+      font-weight:800;
+      color:#fde68a;
+      background:rgba(250,204,21,.12);
+      border:1px solid rgba(250,204,21,.18);
+      white-space:nowrap;
+    }
+
+    .warning-empty{
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(34,197,94,.14);
+      background:rgba(34,197,94,.08);
+      color:#86efac;
+      font-weight:700;
+    }
+
     .section-head{
       display:flex;
       justify-content:space-between;
@@ -374,19 +367,101 @@
     }
 
     .card.freeze{
-      border-color:rgba(96,165,250,.22);
+      border-color:rgba(159,216,255,.28);
       background:
-        linear-gradient(180deg, rgba(96,165,250,.12), rgba(255,255,255,.035)),
+        linear-gradient(180deg, rgba(170,220,255,.14), rgba(255,255,255,.04)),
+        linear-gradient(135deg, rgba(191,227,255,.08), rgba(255,255,255,.02)),
         rgba(255,255,255,.03);
-      box-shadow:0 18px 36px rgba(37,99,235,.10), 0 12px 24px rgba(0,0,0,.18);
+      box-shadow:0 18px 36px rgba(96,165,250,.12), 0 12px 24px rgba(0,0,0,.18);
+    }
+
+    .card.freeze::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.03) 18%, transparent 34%),
+        linear-gradient(145deg, transparent 0%, rgba(191,227,255,.18) 48%, transparent 62%),
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,.07) 50%, transparent 100%);
+      pointer-events:none;
+      opacity:.8;
     }
 
     .card.freeze::after{
       content:"";
       position:absolute;
-      inset:0;
-      background:linear-gradient(180deg, rgba(191,219,254,.055), transparent 42%);
+      inset:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:
+        inset 0 0 24px rgba(191,227,255,.08),
+        inset 0 1px 0 rgba(255,255,255,.08);
       pointer-events:none;
+      opacity:.9;
+    }
+
+    .freeze-cracks{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.42;
+      z-index:0;
+    }
+
+    .freeze-cracks span{
+      position:absolute;
+      display:block;
+      background:linear-gradient(90deg, transparent, rgba(220,240,255,.55), transparent);
+      border-radius:999px;
+      filter:blur(.15px);
+    }
+
+    .freeze-cracks span:nth-child(1){
+      top:18%;
+      left:58%;
+      width:110px;
+      height:1px;
+      transform:rotate(18deg);
+    }
+
+    .freeze-cracks span:nth-child(2){
+      top:24%;
+      left:63%;
+      width:70px;
+      height:1px;
+      transform:rotate(-36deg);
+    }
+
+    .freeze-cracks span:nth-child(3){
+      top:58%;
+      left:14%;
+      width:92px;
+      height:1px;
+      transform:rotate(12deg);
+    }
+
+    .freeze-cracks span:nth-child(4){
+      top:68%;
+      left:22%;
+      width:58px;
+      height:1px;
+      transform:rotate(-42deg);
+    }
+
+    .freeze-cracks span:nth-child(5){
+      top:38%;
+      left:78%;
+      width:42px;
+      height:1px;
+      transform:rotate(90deg);
+    }
+
+    .card-top,
+    .progress-block,
+    .stats,
+    .meta{
+      position:relative;
+      z-index:1;
     }
 
     .card-top{
@@ -395,8 +470,6 @@
       align-items:flex-start;
       gap:1rem;
       margin-bottom:16px;
-      position:relative;
-      z-index:1;
     }
 
     .person{
@@ -419,9 +492,9 @@
     }
 
     .card.freeze .icon{
-      background:rgba(96,165,250,.14);
-      border-color:rgba(147,197,253,.22);
-      box-shadow:0 0 20px rgba(96,165,250,.08);
+      background:rgba(191,227,255,.12);
+      border-color:rgba(191,227,255,.28);
+      box-shadow:0 0 20px rgba(191,227,255,.08);
     }
 
     .person-info{
@@ -485,8 +558,6 @@
 
     .progress-block{
       margin-bottom:16px;
-      position:relative;
-      z-index:1;
     }
 
     .progress-head{
@@ -528,8 +599,8 @@
     }
 
     .card.freeze .progress-bar{
-      background:linear-gradient(90deg, #93c5fd, #3b82f6);
-      box-shadow:0 0 18px rgba(96,165,250,.18);
+      background:linear-gradient(90deg, #c8ebff, #60a5fa);
+      box-shadow:0 0 18px rgba(191,227,255,.18);
     }
 
     .stats{
@@ -537,8 +608,6 @@
       grid-template-columns:repeat(2, minmax(0,1fr));
       gap:12px;
       margin-bottom:16px;
-      position:relative;
-      z-index:1;
     }
 
     .stat{
@@ -546,6 +615,11 @@
       padding:14px;
       background:rgba(255,255,255,.03);
       border:1px solid rgba(255,255,255,.04);
+    }
+
+    .card.freeze .stat{
+      background:rgba(255,255,255,.045);
+      border-color:rgba(191,227,255,.10);
     }
 
     .stat-label{
@@ -566,12 +640,14 @@
       color:var(--gold);
     }
 
+    .card.freeze .stat-value.gold{
+      color:#ffd88c;
+    }
+
     .meta{
       display:flex;
       flex-direction:column;
       gap:10px;
-      position:relative;
-      z-index:1;
     }
 
     .meta-row{
@@ -596,38 +672,7 @@
     }
 
     .freeze-flag{
-      color:#93c5fd;
-    }
-
-    .snow{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-      z-index:0;
-    }
-
-    .snow span{
-      position:absolute;
-      top:-10px;
-      display:block;
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:rgba(219,234,254,.9);
-      opacity:.55;
-      animation:snowfall linear infinite;
-    }
-
-    @keyframes snowfall{
-      0%{
-        transform:translateY(0) translateX(0);
-        opacity:.65;
-      }
-      100%{
-        transform:translateY(420px) translateX(var(--wind));
-        opacity:0;
-      }
+      color:#ccecff;
     }
 
     .error{
@@ -703,15 +748,6 @@
       .name{
         white-space:normal;
       }
-
-      .updated{
-        width:100%;
-        justify-content:flex-start;
-      }
-
-      .hero-pills{
-        flex-direction:column;
-      }
     }
   </style>
 </head>
@@ -744,53 +780,31 @@
                 Live overzicht per persoon, inclusief punten, target, streak, sanctionering en eventuele freeze.
               </p>
             </div>
-
-            <div class="updated">
-              Laatste update <strong id="subtitle">–</strong>
-            </div>
-          </div>
-
-          <div class="hero-pills">
-            <div class="hero-pill gold">
-              Totale punten <strong id="totalPoints">0</strong>
-            </div>
-            <div class="hero-pill">
-              Personen <strong id="totalPeople">0</strong>
-            </div>
-            <div class="hero-pill">
-              Freeze actief <strong id="freezeCount">0</strong>
-            </div>
-            <div class="hero-pill">
-              Gemiddelde streak <strong id="avgStreak">0</strong>
-            </div>
           </div>
         </div>
 
         <aside class="summary-card">
           <div class="summary-title">Samenvatting</div>
           <div class="summary-sub">
-            Snel inzicht in de belangrijkste statusindicatoren van dit moment.
+            Direct inzicht in freeze en waarschuwingen binnen het team.
           </div>
 
           <div class="summary-list">
             <div class="summary-item">
-              <div class="summary-label">Hoogste target</div>
-              <div class="summary-value gold" id="highestTarget">0</div>
-            </div>
-
-            <div class="summary-item">
-              <div class="summary-label">Meeste punten</div>
-              <div class="summary-value" id="topPointsName">–</div>
-            </div>
-
-            <div class="summary-item">
-              <div class="summary-label">Langste streak</div>
-              <div class="summary-value green" id="longestStreak">0</div>
+              <div class="summary-label">Laatste update</div>
+              <div class="summary-value" id="subtitle">–</div>
             </div>
 
             <div class="summary-item">
               <div class="summary-label">Freeze status</div>
               <div class="summary-value blue" id="freezeSummary">Geen</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div class="summary-title" style="font-size:.95rem; margin-bottom:10px;">Mensen met waarschuwing</div>
+            <div class="warning-list" id="warningList">
+              <div class="warning-empty">Geen waarschuwingen actief</div>
             </div>
           </div>
         </aside>
@@ -862,32 +876,33 @@
       });
     }
 
-    function createSnow(container){
-      const snow = document.createElement('div');
-      snow.className = 'snow';
-
-      for (let i = 0; i < 12; i++) {
-        const flake = document.createElement('span');
-        const size = 2 + Math.random() * 3.5;
-
-        flake.style.left = Math.random() * 100 + '%';
-        flake.style.width = size + 'px';
-        flake.style.height = size + 'px';
-        flake.style.animationDuration = 8 + Math.random() * 4 + 's';
-        flake.style.animationDelay = Math.random() * 6 + 's';
-        flake.style.setProperty('--wind', (Math.random() * 24 - 12) + 'px');
-
-        snow.appendChild(flake);
-      }
-
-      container.appendChild(snow);
-    }
-
     function getProgress(points, target){
       const p = Number(points) || 0;
       const t = Number(target) || 0;
       if (t <= 0) return 0;
       return Math.min((p / t) * 100, 100);
+    }
+
+    function buildWarningList(data){
+      const warningList = document.getElementById('warningList');
+
+      const warnings = data.filter(person => {
+        const status = String(person.status || '').toLowerCase();
+        const sanction = String(person.sanction || '').toLowerCase();
+        return status.includes('waarschuwing') || sanction.includes('waarschuwing');
+      });
+
+      if (warnings.length === 0) {
+        warningList.innerHTML = `<div class="warning-empty">Geen waarschuwingen actief</div>`;
+        return;
+      }
+
+      warningList.innerHTML = warnings.map(person => `
+        <div class="warning-person">
+          <div class="warning-name">${person.name || 'Onbekend'}</div>
+          <div class="warning-badge">Waarschuwing</div>
+        </div>
+      `).join('');
     }
 
     async function load(){
@@ -911,23 +926,12 @@
         wrapper.innerHTML = '';
         error.innerHTML = '';
 
-        const totalPeople = data.length;
         const freezeCount = data.filter(p => p.freeze).length;
-        const totalPoints = data.reduce((sum, p) => sum + (Number(p.points) || 0), 0);
-        const avgStreak = (data.reduce((sum, p) => sum + (Number(p.streak) || 0), 0) / totalPeople).toFixed(1);
-        const highestTarget = Math.max(...data.map(p => Number(p.target) || 0));
-        const topPointsPerson = [...data].sort((a, b) => (Number(b.points) || 0) - (Number(a.points) || 0))[0];
-        const longestStreakValue = Math.max(...data.map(p => Number(p.streak) || 0));
 
         document.getElementById('subtitle').textContent = formatDateTime();
-        document.getElementById('totalPeople').textContent = totalPeople;
-        document.getElementById('freezeCount').textContent = freezeCount;
-        document.getElementById('avgStreak').textContent = avgStreak;
-        document.getElementById('highestTarget').textContent = highestTarget;
-        document.getElementById('topPointsName').textContent = topPointsPerson ? topPointsPerson.name : '–';
-        document.getElementById('longestStreak').textContent = longestStreakValue;
         document.getElementById('freezeSummary').textContent = freezeCount > 0 ? `${freezeCount} actief` : 'Geen';
-        countUp(document.getElementById('totalPoints'), totalPoints);
+
+        buildWarningList(data);
 
         data.forEach((p) => {
           const progress = getProgress(p.points, p.target);
@@ -938,6 +942,16 @@
           card.className = 'card' + (p.freeze ? ' freeze' : '');
 
           card.innerHTML = `
+            ${p.freeze ? `
+              <div class="freeze-cracks">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            ` : ''}
+
             <div class="card-top">
               <div class="person">
                 <div class="icon">${p.icon || '⭐'}</div>
@@ -995,10 +1009,6 @@
               </div>
             </div>
           `;
-
-          if (p.freeze) {
-            createSnow(card);
-          }
 
           wrapper.appendChild(card);
 
