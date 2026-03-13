@@ -146,7 +146,7 @@
     .overview{
       margin-top:18px;
       display:grid;
-      grid-template-columns:1.5fr 1fr;
+      grid-template-columns:1.65fr .95fr;
       gap:16px;
       align-items:stretch;
     }
@@ -164,7 +164,7 @@
     }
 
     .overview-card{
-      padding:24px 24px 20px;
+      padding:24px 24px 22px;
     }
 
     .overview-card::before,
@@ -201,7 +201,7 @@
     }
 
     h1{
-      font-size:clamp(1.5rem, 3.2vw, 2.25rem);
+      font-size:clamp(1.5rem, 3.2vw, 2.2rem);
       line-height:1.03;
       letter-spacing:-.04em;
       margin-bottom:8px;
@@ -232,46 +232,38 @@
       color:var(--text);
     }
 
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(4, minmax(0,1fr));
+    .hero-summary{
+      display:flex;
+      flex-wrap:wrap;
       gap:12px;
+      margin-top:4px;
     }
 
-    .stat{
-      border-radius:18px;
-      border:1px solid var(--border);
-      background:var(--panel);
-      padding:16px 16px 14px;
-      min-height:92px;
-    }
-
-    .stat.primary{
-      background:linear-gradient(180deg, rgba(244,199,108,.14), rgba(244,199,108,.05));
-      border-color:rgba(244,199,108,.22);
-    }
-
-    .stat-label{
+    .summary-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      padding:.9rem 1rem;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.035);
       color:var(--muted);
-      font-size:.82rem;
+      font-size:.92rem;
       font-weight:700;
-      margin-bottom:9px;
     }
 
-    .stat-value{
-      font-size:1.55rem;
-      font-weight:800;
-      letter-spacing:-.03em;
+    .summary-pill strong{
+      color:var(--text);
+      font-size:.95rem;
     }
 
-    .stat.primary .stat-value{
+    .summary-pill.gold{
+      border-color:rgba(244,199,108,.22);
+      background:rgba(244,199,108,.08);
+    }
+
+    .summary-pill.gold strong{
       color:var(--gold);
-    }
-
-    .stat-note{
-      margin-top:7px;
-      color:var(--muted);
-      font-size:.8rem;
     }
 
     .side-card{
@@ -331,7 +323,7 @@
       flex-shrink:0;
     }
 
-    .top-item:nth-child(1) .mini-rank{
+    .top-item.rank-1 .mini-rank{
       background:rgba(244,199,108,.15);
       border-color:rgba(244,199,108,.26);
       color:var(--gold);
@@ -430,21 +422,21 @@
       background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.045));
     }
 
-    .row.top1{
+    .row.rank-1{
       border-color:rgba(244,199,108,.25);
       background:linear-gradient(180deg, rgba(244,199,108,.11), rgba(255,255,255,.04));
       box-shadow:0 18px 40px rgba(244,199,108,.08), 0 18px 32px rgba(0,0,0,.24);
     }
 
-    .row.top1::before{
+    .row.rank-1::before{
       background:linear-gradient(180deg, #f4c76c, #eab308);
     }
 
-    .row.top2::before{
+    .row.rank-2::before{
       background:linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.15));
     }
 
-    .row.top3::before{
+    .row.rank-3::before{
       background:linear-gradient(180deg, #c08457, rgba(192,132,87,.2));
     }
 
@@ -468,17 +460,17 @@
       font-weight:800;
     }
 
-    .row.top1 .rank-badge{
+    .row.rank-1 .rank-badge{
       background:rgba(244,199,108,.16);
       border-color:rgba(244,199,108,.28);
       color:var(--gold);
     }
 
-    .row.top2 .rank-badge{
+    .row.rank-2 .rank-badge{
       background:rgba(255,255,255,.08);
     }
 
-    .row.top3 .rank-badge{
+    .row.rank-3 .rank-badge{
       background:rgba(192,132,87,.13);
       border-color:rgba(192,132,87,.28);
       color:#d6a77a;
@@ -545,7 +537,7 @@
       box-shadow:0 0 18px rgba(56,189,248,.16);
     }
 
-    .row.top1 .progress{
+    .row.rank-1 .progress{
       background:linear-gradient(90deg, #f4c76c, #facc15);
       box-shadow:0 0 18px rgba(244,199,108,.24);
     }
@@ -564,7 +556,7 @@
       color:var(--text);
     }
 
-    .row.top1 .score{
+    .row.rank-1 .score{
       color:var(--gold);
     }
 
@@ -604,10 +596,6 @@
     }
 
     @media (max-width: 980px){
-      .stats{
-        grid-template-columns:repeat(2, minmax(0,1fr));
-      }
-
       .row{
         grid-template-columns:70px 1fr;
         grid-template-areas:
@@ -661,10 +649,6 @@
         padding:18px;
       }
 
-      .stats{
-        grid-template-columns:1fr;
-      }
-
       .row{
         padding:15px;
       }
@@ -676,6 +660,10 @@
       .updated{
         width:100%;
         justify-content:flex-start;
+      }
+
+      .hero-summary{
+        flex-direction:column;
       }
     }
   </style>
@@ -706,7 +694,7 @@
               <div class="eyebrow">Acquisitie performance</div>
               <h1>Acquisitie overzicht</h1>
               <p class="overview-sub">
-                Live inzicht in de actuele ranking, totaalscore en koplopers binnen het acquisitieteam.
+                Live inzicht in de actuele ranking en koplopers binnen het acquisitieteam.
               </p>
             </div>
 
@@ -715,38 +703,24 @@
             </div>
           </div>
 
-          <div class="stats">
-            <div class="stat primary">
-              <div class="stat-label">Totaal punten</div>
-              <div class="stat-value" id="totPoints">0</div>
-              <div class="stat-note">Som van alle actuele scores</div>
+          <div class="hero-summary">
+            <div class="summary-pill gold">
+              Hoogste score <strong id="maxScore">0</strong>
             </div>
-
-            <div class="stat">
-              <div class="stat-label">Spelers</div>
-              <div class="stat-value" id="players">0</div>
-              <div class="stat-note">Actief in deze ranking</div>
+            <div class="summary-pill">
+              Gedeelde eerste plek <strong id="sharedLead">Nee</strong>
             </div>
-
-            <div class="stat">
-              <div class="stat-label">Gemiddelde</div>
-              <div class="stat-value" id="avgScore">0</div>
-              <div class="stat-note">Gemiddeld per speler</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Koploper</div>
-              <div class="stat-value" id="leaderName">–</div>
-              <div class="stat-note">Huidige nummer 1</div>
+            <div class="summary-pill">
+              Koplopers <strong id="leaderNames">–</strong>
             </div>
           </div>
         </div>
 
         <aside class="side-card">
           <div>
-            <div class="side-title">Top 3 van dit moment</div>
+            <div class="side-title">Top van dit moment</div>
             <div class="side-sub">
-              Snel overzicht van de sterkste performers op basis van actuele score.
+              Overzicht van de sterkste performers op basis van actuele score.
             </div>
           </div>
 
@@ -792,7 +766,6 @@
 
     function countUp(el, target, dur = 1000) {
       let start = 0;
-      const isDecimal = String(target).includes('.');
       const numericTarget = Number(target);
       const step = Math.max(1, Math.ceil(numericTarget / (dur / 16)));
 
@@ -804,7 +777,7 @@
           clearInterval(timer);
         }
 
-        el.textContent = isDecimal ? start.toFixed(1) : start;
+        el.textContent = start;
       }, 16);
     }
 
@@ -818,11 +791,29 @@
       });
     }
 
-    function getSubtitle(index, score, max) {
-      if (index === 0) return 'Huidige koploper';
-      if (score === max) return 'Gedeelde hoogste score';
-      if (index === 1) return 'Directe uitdager';
-      if (index === 2) return 'Staat in de top 3';
+    function assignRanks(data) {
+      let previousScore = null;
+      let currentRank = 0;
+
+      return data.map((player, index) => {
+        if (player.score !== previousScore) {
+          currentRank = index + 1;
+          previousScore = player.score;
+        }
+
+        return {
+          ...player,
+          rank: currentRank
+        };
+      });
+    }
+
+    function getSubtitle(player, leadersCount, maxScore) {
+      if (player.rank === 1 && leadersCount > 1) return 'Gedeelde eerste plek';
+      if (player.rank === 1) return 'Huidige koploper';
+      if (player.score === maxScore) return 'Gedeelde hoogste score';
+      if (player.rank === 2) return 'Directe uitdager';
+      if (player.rank === 3) return 'Staat in de top 3';
       return 'Actuele scorepositie';
     }
 
@@ -830,10 +821,10 @@
       const topList = document.getElementById('topList');
       const topThree = data.slice(0, 3);
 
-      topList.innerHTML = topThree.map((player, index) => `
-        <div class="top-item">
+      topList.innerHTML = topThree.map((player) => `
+        <div class="top-item rank-${player.rank}">
           <div class="top-left">
-            <div class="mini-rank">${index + 1}</div>
+            <div class="mini-rank">${player.rank}</div>
             <div class="mini-name">${player.name}</div>
           </div>
           <div class="mini-score">${player.score}</div>
@@ -851,43 +842,41 @@
           throw new Error('scores.json kon niet worden geladen');
         }
 
-        const data = await res.json();
+        const rawData = await res.json();
 
-        if (!Array.isArray(data) || data.length === 0) {
+        if (!Array.isArray(rawData) || rawData.length === 0) {
           board.innerHTML = '<div class="empty-state">Nog geen data beschikbaar.</div>';
           return;
         }
 
-        data.sort((a, b) => b.score - a.score);
+        rawData.sort((a, b) => b.score - a.score);
 
+        const data = assignRanks(rawData);
         const max = Math.max(...data.map(d => d.score));
-        const total = data.reduce((sum, d) => sum + d.score, 0);
-        const avg = (total / data.length).toFixed(1);
-        const leader = data[0];
+        const leaders = data.filter(player => player.score === max);
+        const leadersCount = leaders.length;
 
-        document.getElementById('players').textContent = data.length;
         document.getElementById('lastUp').textContent = formatDateTime();
-        document.getElementById('leaderName').textContent = leader.name;
+        document.getElementById('maxScore').textContent = max;
         document.getElementById('maxScoreChip').textContent = `Hoogste score: ${max}`;
-
-        countUp(document.getElementById('totPoints'), total);
-        countUp(document.getElementById('avgScore'), avg);
+        document.getElementById('sharedLead').textContent = leadersCount > 1 ? 'Ja' : 'Nee';
+        document.getElementById('leaderNames').textContent = leaders.map(p => p.name).join(', ');
 
         createTopList(data);
 
         board.innerHTML = '';
 
-        data.forEach((player, index) => {
+        data.forEach((player) => {
           const row = document.createElement('div');
           row.className = 'row';
 
-          if (index === 0) row.classList.add('top1');
-          if (index === 1) row.classList.add('top2');
-          if (index === 2) row.classList.add('top3');
+          if (player.rank === 1) row.classList.add('rank-1');
+          if (player.rank === 2) row.classList.add('rank-2');
+          if (player.rank === 3) row.classList.add('rank-3');
 
           row.innerHTML = `
             <div class="rank">
-              <div class="rank-badge">${index + 1}</div>
+              <div class="rank-badge">${player.rank}</div>
             </div>
 
             <div class="name">
@@ -895,10 +884,10 @@
               <div class="person">
                 <div class="person-name">
                   ${player.name}
-                  ${index === 0 ? '<span class="crown">👑</span>' : ''}
+                  ${player.rank === 1 ? '<span class="crown">👑</span>' : ''}
                 </div>
                 <div class="person-sub">
-                  ${getSubtitle(index, player.score, max)}
+                  ${getSubtitle(player, leadersCount, max)}
                 </div>
               </div>
             </div>
