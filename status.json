@@ -2,7 +2,7 @@
   {
     "name": "Floor Staal",
     "icon": "🦊",
-    "points": 0,
+    "points": 10,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -13,7 +13,7 @@
   {
     "name": "Daan Hogervorst",
     "icon": "🦅",
-    "points": 0,
+    "points": 16,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -26,16 +26,16 @@
     "icon": "🐺",
     "points": 0,
     "target": 10,
-    "status": "Groen",
-    "streak": 0,
-    "sanction": "Geen sanctie",
+    "status": "Oranje",
+    "streak": 1,
+    "sanction": "Waarschuwing",
     "freeze": false,
-    "next_target": 10
+    "next_target": 25
   },
   {
     "name": "Hamza Rida",
     "icon": "🦁",
-    "points": 0,
+    "points": 10,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -46,7 +46,7 @@
   {
     "name": "Philippe Smit",
     "icon": "🐼",
-    "points": 0,
+    "points": 36,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -59,27 +59,27 @@
     "icon": "🐯",
     "points": 0,
     "target": 10,
-    "status": "Groen",
-    "streak": 0,
-    "sanction": "Geen sanctie",
+    "status": "Oranje",
+    "streak": 1,
+    "sanction": "Waarschuwing",
     "freeze": false,
-    "next_target": 10
+    "next_target": 25
   },
   {
     "name": "Minke Groenendijk",
     "icon": "🐨",
-    "points": 0,
+    "points": 6,
     "target": 10,
-    "status": "Groen",
-    "streak": 0,
-    "sanction": "Geen sanctie",
+    "status": "Oranje",
+    "streak": 1,
+    "sanction": "Waarschuwing",
     "freeze": false,
-    "next_target": 10
+    "next_target": 19
   },
   {
     "name": "Puck Goossens",
     "icon": "🐧",
-    "points": 0,
+    "points": 10,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -90,7 +90,7 @@
   {
     "name": "Eva van Ieperen",
     "icon": "🐬",
-    "points": 0,
+    "points": 12,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -101,7 +101,7 @@
   {
     "name": "Joost Tieleman",
     "icon": "🦏",
-    "points": 0,
+    "points": 10,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -112,7 +112,7 @@
   {
     "name": "Kaat Wientjen",
     "icon": "🦋",
-    "points": 0,
+    "points": 30,
     "target": 10,
     "status": "Groen",
     "streak": 0,
@@ -123,7 +123,7 @@
   {
     "name": "Olivier Newton",
     "icon": "🐙",
-    "points": 0,
+    "points": 34,
     "target": 10,
     "status": "Groen",
     "streak": 0,
