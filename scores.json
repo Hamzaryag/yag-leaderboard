@@ -1,14 +1,14 @@
 [
   {"name":"Floor Staal","score":10,"icon":"🦊"},
-  {"name":"Daan Hogervorst","score":16,"icon":"🦅"},
+  {"name":"Daan Hogervorst","score":10,"icon":"🦅"},
   {"name":"Lucas van Hengel","score":0,"icon":"🐺"},
-  {"name":"Hamza Rida","score":10,"icon":"🦁"},
-  {"name":"Philippe Smit","score":36,"icon":"🐼"},
-  {"name":"Thijs Thierry","score":0,"icon":"🐯"},
-  {"name":"Minke Groenendijk","score":6,"icon":"🐨"},
+  {"name":"Hamza Rida","score":26,"icon":"🦁"},
+  {"name":"Philippe Smit","score":8,"icon":"🐼"},
+  {"name":"Thijs Thierry","score":26,"icon":"🐯"},
+  {"name":"Minke Groenendijk","score":14,"icon":"🐨"},
   {"name":"Puck Goossens","score":10,"icon":"🐧"},
-  {"name":"Eva van Ieperen","score":12,"icon":"🐬"},
+  {"name":"Eva van Ieperen","score":28,"icon":"🐬"},
   {"name":"Joost Tieleman","score":10,"icon":"🦏"},
-  {"name":"Kaat Wientjen","score":30,"icon":"🦋"},
-  {"name":"Olivier Newton","score":34,"icon":"🐙"}
+  {"name":"Kaat Wientjen","score":0,"icon":"🦋"},
+  {"name":"Olivier Newton","score":10,"icon":"🐙"}
 ]
